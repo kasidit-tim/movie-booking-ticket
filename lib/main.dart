@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_booking_ticket/core/theme/app_theme.dart';
 
 void main() {
   runApp(const MovieBookingTicket());
@@ -11,7 +12,7 @@ class MovieBookingTicket extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      theme: AppTheme.dark,
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
