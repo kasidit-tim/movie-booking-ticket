@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movie_booking_ticket/core/theme/app_colors.dart';
+import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
+import 'package:movie_booking_ticket/gen/assets.gen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key, required this.navigationShell});
@@ -17,32 +20,46 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: navigationShell,
-
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: navigationShell.currentIndex,
-        onDestinationSelected: _onTap,
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.movie_outlined),
-            selectedIcon: Icon(Icons.movie),
-            label: 'Movie',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.confirmation_num_outlined),
-            selectedIcon: Icon(Icons.confirmation_num),
-            label: 'Ticket',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          border: Border(top: BorderSide(color: AppColors.darkGrey, width: 1)),
+        ),
+        child: NavigationBar(
+          backgroundColor: AppColors.black,
+          indicatorColor: Colors.transparent,
+          selectedIndex: navigationShell.currentIndex,
+          labelTextStyle: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return context.textTheme.titleSmall?.copyWith(
+                color: AppColors.primary,
+              );
+            }
+            return context.textTheme.titleSmall;
+          }),
+          onDestinationSelected: _onTap,
+          destinations: [
+            NavigationDestination(
+              icon: Assets.images.navBar.home.svg(),
+              selectedIcon: Assets.images.navBar.homeActive.svg(),
+              label: 'Home',
+            ),
+            NavigationDestination(
+              icon: Assets.images.navBar.ticket.svg(),
+              selectedIcon: Assets.images.navBar.ticketActive.svg(),
+              label: 'Ticket',
+            ),
+            NavigationDestination(
+              icon: Assets.images.navBar.video.svg(),
+              selectedIcon: Assets.images.navBar.videoActive.svg(),
+              label: 'Movie',
+            ),
+            NavigationDestination(
+              icon: Assets.images.navBar.user.svg(),
+              selectedIcon: Assets.images.navBar.userActive.svg(),
+              label: 'Profile',
+            ),
+          ],
+        ),
       ),
     );
   }
