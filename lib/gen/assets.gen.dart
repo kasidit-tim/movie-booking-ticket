@@ -19,6 +19,10 @@ class $AssetsImagesGen {
 
   /// Directory path: assets/images/nav_bar
   $AssetsImagesNavBarGen get navBar => const $AssetsImagesNavBarGen();
+
+  /// Directory path: assets/images/profile_menu
+  $AssetsImagesProfileMenuGen get profileMenu =>
+      const $AssetsImagesProfileMenuGen();
 }
 
 class $AssetsImagesNavBarGen {
@@ -63,6 +67,59 @@ class $AssetsImagesNavBarGen {
     userActive,
     video,
     videoActive,
+  ];
+}
+
+class $AssetsImagesProfileMenuGen {
+  const $AssetsImagesProfileMenuGen();
+
+  /// File path: assets/images/profile_menu/arrow_right.svg
+  SvgGenImage get arrowRight =>
+      const SvgGenImage('assets/images/profile_menu/arrow_right.svg');
+
+  /// File path: assets/images/profile_menu/call.svg
+  SvgGenImage get call =>
+      const SvgGenImage('assets/images/profile_menu/call.svg');
+
+  /// File path: assets/images/profile_menu/edit.svg
+  SvgGenImage get edit =>
+      const SvgGenImage('assets/images/profile_menu/edit.svg');
+
+  /// File path: assets/images/profile_menu/face_id.svg
+  SvgGenImage get faceId =>
+      const SvgGenImage('assets/images/profile_menu/face_id.svg');
+
+  /// File path: assets/images/profile_menu/lock.svg
+  SvgGenImage get lock =>
+      const SvgGenImage('assets/images/profile_menu/lock.svg');
+
+  /// File path: assets/images/profile_menu/shopping_cart.svg
+  SvgGenImage get shoppingCart =>
+      const SvgGenImage('assets/images/profile_menu/shopping_cart.svg');
+
+  /// File path: assets/images/profile_menu/sms.svg
+  SvgGenImage get sms =>
+      const SvgGenImage('assets/images/profile_menu/sms.svg');
+
+  /// File path: assets/images/profile_menu/ticket.svg
+  SvgGenImage get ticket =>
+      const SvgGenImage('assets/images/profile_menu/ticket.svg');
+
+  /// File path: assets/images/profile_menu/translate.svg
+  SvgGenImage get translate =>
+      const SvgGenImage('assets/images/profile_menu/translate.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [
+    arrowRight,
+    call,
+    edit,
+    faceId,
+    lock,
+    shoppingCart,
+    sms,
+    ticket,
+    translate,
   ];
 }
 
