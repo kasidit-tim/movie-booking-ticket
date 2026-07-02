@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_booking_ticket/screens/main/home/views/home_screen.dart';
+import 'package:movie_booking_ticket/screens/main/movie/bloc/movie_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/views/main_screen.dart';
 import 'package:movie_booking_ticket/screens/main/movie/views/movie_screen.dart';
 import 'package:movie_booking_ticket/screens/main/profile/views/profile_screen.dart';
@@ -43,22 +44,25 @@ class AppRouter {
             ],
           ),
 
-          /// Movie
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: AppRoutes.movieTab,
-                builder: (context, state) => const MovieScreen(),
-              ),
-            ],
-          ),
-
           /// Ticket
           StatefulShellBranch(
             routes: [
               GoRoute(
                 path: AppRoutes.ticketTab,
                 builder: (context, state) => const TicketScreen(),
+              ),
+            ],
+          ),
+
+          /// Movie
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.movieTab,
+                builder: (context, state) => BlocProvider(
+                  create: (_) => MovieBloc(),
+                  child: MovieScreen(),
+                ),
               ),
             ],
           ),

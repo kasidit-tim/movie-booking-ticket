@@ -17,12 +17,31 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// Directory path: assets/images/general
+  $AssetsImagesGeneralGen get general => const $AssetsImagesGeneralGen();
+
   /// Directory path: assets/images/nav_bar
   $AssetsImagesNavBarGen get navBar => const $AssetsImagesNavBarGen();
 
   /// Directory path: assets/images/profile_menu
   $AssetsImagesProfileMenuGen get profileMenu =>
       const $AssetsImagesProfileMenuGen();
+}
+
+class $AssetsImagesGeneralGen {
+  const $AssetsImagesGeneralGen();
+
+  /// File path: assets/images/general/clock.svg
+  SvgGenImage get clock => const SvgGenImage('assets/images/general/clock.svg');
+
+  /// File path: assets/images/general/star.svg
+  SvgGenImage get star => const SvgGenImage('assets/images/general/star.svg');
+
+  /// File path: assets/images/general/video.svg
+  SvgGenImage get video => const SvgGenImage('assets/images/general/video.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [clock, star, video];
 }
 
 class $AssetsImagesNavBarGen {
