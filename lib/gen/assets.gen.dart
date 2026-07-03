@@ -31,8 +31,16 @@ class $AssetsImagesGen {
 class $AssetsImagesGeneralGen {
   const $AssetsImagesGeneralGen();
 
+  /// File path: assets/images/general/arrow_left.svg
+  SvgGenImage get arrowLeft =>
+      const SvgGenImage('assets/images/general/arrow_left.svg');
+
   /// File path: assets/images/general/clock.svg
   SvgGenImage get clock => const SvgGenImage('assets/images/general/clock.svg');
+
+  /// File path: assets/images/general/location.svg
+  SvgGenImage get location =>
+      const SvgGenImage('assets/images/general/location.svg');
 
   /// File path: assets/images/general/star.svg
   SvgGenImage get star => const SvgGenImage('assets/images/general/star.svg');
@@ -41,7 +49,7 @@ class $AssetsImagesGeneralGen {
   SvgGenImage get video => const SvgGenImage('assets/images/general/video.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [clock, star, video];
+  List<SvgGenImage> get values => [arrowLeft, clock, location, star, video];
 }
 
 class $AssetsImagesNavBarGen {
