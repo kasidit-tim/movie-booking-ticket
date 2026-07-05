@@ -42,6 +42,10 @@ class $AssetsImagesGeneralGen {
   SvgGenImage get location =>
       const SvgGenImage('assets/images/general/location.svg');
 
+  /// File path: assets/images/general/search.svg
+  SvgGenImage get search =>
+      const SvgGenImage('assets/images/general/search.svg');
+
   /// File path: assets/images/general/star.svg
   SvgGenImage get star => const SvgGenImage('assets/images/general/star.svg');
 
@@ -49,7 +53,14 @@ class $AssetsImagesGeneralGen {
   SvgGenImage get video => const SvgGenImage('assets/images/general/video.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [arrowLeft, clock, location, star, video];
+  List<SvgGenImage> get values => [
+    arrowLeft,
+    clock,
+    location,
+    search,
+    star,
+    video,
+  ];
 }
 
 class $AssetsImagesNavBarGen {
