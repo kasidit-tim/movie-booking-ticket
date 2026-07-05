@@ -7,13 +7,15 @@ import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
 
 class MovieCard extends StatelessWidget {
-  const MovieCard({super.key});
+  const MovieCard({super.key, this.showRatingStar = true});
+
+  final bool showRatingStar;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //
+        debugPrint("=====> movie card");
       },
       child: Container(
         color: Colors.transparent,
@@ -45,10 +47,11 @@ class MovieCard extends StatelessWidget {
               spacing: 4,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                MovieInfoRow(
-                  iconPath: Assets.images.general.star.path,
-                  text: "4.0 (982)",
-                ),
+                if (showRatingStar)
+                  MovieInfoRow(
+                    iconPath: Assets.images.general.star.path,
+                    text: "4.0 (982)",
+                  ),
                 MovieInfoRow(
                   iconPath: Assets.images.general.clock.path,
                   text: "2 hour 5 minutes",

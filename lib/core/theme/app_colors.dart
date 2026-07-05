@@ -19,6 +19,9 @@ class AppColors {
   static const black = Color(0xFF000000);
 
   static const textFieldBg = Color(0xFF1C1C1C);
+  static const hintText = Color(0xFF8C8C8C);
+
+  static const indicatorBg = Color(0xFF2E2E2E);
 
   static const bottomNavInactive = Color(0xFFCCCCCC);
 }
