@@ -20,6 +20,11 @@ dependencies:
   cached_network_image: ^3.4.1
   equatable: ^2.0.8
   carousel_slider: ^5.1.2
+  dio: ^5.10.0
+  flutter_dotenv: ^6.0.1
+  json_annotation: ^4.12.0
+  copy_with_extension: ^15.0.1
+  skeletonizer: ^2.1.3
 
 dev_dependencies:
   flutter_test:
@@ -27,6 +32,9 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   build_runner: ^2.15.0
   flutter_gen_runner: ^5.14.1
+  json_serializable: ^6.14.0
+  copy_with_extension_gen: ^15.0.1
+
 
 flutter_gen:
   output: lib/gen/ 
@@ -41,6 +49,7 @@ flutter_gen:
 flutter:
   uses-material-design: true
   assets:
+    - .env
     - assets/images/nav_bar/
     - assets/images/profile_menu/
     - assets/images/general/
