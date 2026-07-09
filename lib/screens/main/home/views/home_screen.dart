@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
               _buildHomeSearchBar(),
               Gap.h32,
 
-              HomeSection(title: "Now Playing", child: CarouselMovieCard()),
+              CarouselMovieCard(),
 
               HomeSection(
                 title: "Coming soon",

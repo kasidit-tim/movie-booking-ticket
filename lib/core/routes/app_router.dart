@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movie_booking_ticket/screens/main/home/bloc/home_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/home/views/home_screen.dart';
 import 'package:movie_booking_ticket/screens/main/movie/bloc/movie_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/views/main_screen.dart';
@@ -39,7 +40,10 @@ class AppRouter {
             routes: [
               GoRoute(
                 path: AppRoutes.homeTab,
-                builder: (context, state) => const HomeScreen(),
+                builder: (context, state) => BlocProvider(
+                  create: (_) => HomeBloc()..add(LoadNowPlayingMovie()),
+                  child: HomeScreen(),
+                ),
               ),
             ],
           ),
