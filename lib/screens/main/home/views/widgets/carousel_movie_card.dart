@@ -22,18 +22,6 @@ class CarouselMovieCard extends StatefulWidget {
 class _CarouselMovieCardState extends State<CarouselMovieCard> {
   int _currentPage = 0;
 
-  static final _skeletonMovie = MovieDataModel(
-    title: 'Loading Title',
-    posterPath: '',
-    voteAverage: 8.0,
-    voteCount: 1000,
-    runtime: 120,
-    genres: [
-      Genre(name: "Test"),
-      Genre(name: "Test"),
-    ],
-  );
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
@@ -57,7 +45,7 @@ class _CarouselMovieCardState extends State<CarouselMovieCard> {
         title: "Now Playing",
         child: Column(
           children: [
-            _buildCarousel([_skeletonMovie], isSkeleton: true),
+            MovieCarouselSkeleton(),
             Gap.h16,
             _buildSkeletonInfo(),
             const SizedBox(height: 12),
@@ -103,17 +91,14 @@ class _CarouselMovieCardState extends State<CarouselMovieCard> {
     );
   }
 
-  Widget _buildCarousel(
-    List<MovieDataModel> movieDataList, {
-    bool isSkeleton = false,
-  }) {
+  Widget _buildCarousel(List<MovieDataModel> movieDataList) {
     return CarouselSlider.builder(
       itemCount: movieDataList.length,
       itemBuilder: (context, i, _) {
         final isCenter = _currentPage == i;
         final movie = movieDataList[i];
         return GestureDetector(
-          onTap: isSkeleton ? null : () => debugPrint("====> carousel $i"),
+          onTap: () => debugPrint("====> carousel $i"),
           child: Stack(
             children: [
               Container(
@@ -122,17 +107,12 @@ class _CarouselMovieCardState extends State<CarouselMovieCard> {
                   borderRadius: BorderRadius.circular(16),
                   color: AppColors.card,
                 ),
-                child: isSkeleton
-                    ? const SizedBox.expand()
-                    : CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl:
-                            "${AppConstants.imageW500}${movie.posterPath}",
-                        errorWidget: (_, _, error) => Container(
-                          color: AppColors.card,
-                          alignment: Alignment.center,
-                        ),
-                      ),
+                child: CachedNetworkImage(
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.cover,
+                  imageUrl: "${AppConstants.imageW500}${movie.posterPath}",
+                ),
               ),
               if (!isCenter)
                 Positioned.fill(child: Container(color: Colors.black45)),
@@ -141,14 +121,11 @@ class _CarouselMovieCardState extends State<CarouselMovieCard> {
         );
       },
       options: CarouselOptions(
+        clipBehavior: Clip.hardEdge,
         aspectRatio: 1,
         initialPage: _currentPage,
         onPageChanged: (index, reason) {
           setState(() => _currentPage = index);
-          final newMovie = movieDataList[index];
-          if (newMovie.id != null && newMovie.runtime == null) {
-            context.read<HomeBloc>().add(LoadMovieDetailById(id: newMovie.id!));
-          }
         },
         enlargeCenterPage: true,
         enlargeFactor: 0.25,
@@ -163,38 +140,11 @@ class _CarouselMovieCardState extends State<CarouselMovieCard> {
         Text(movieData.title ?? "", style: context.textTheme.headlineSmall),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: BlocBuilder<HomeBloc, HomeState>(
-            buildWhen: (prev, curr) =>
-                prev.isLoadingDetail != curr.isLoadingDetail,
-            builder: (context, state) {
-              final movie = state.movieDataList[_currentPage];
-
-              if (state.isLoadingDetail && movie.runtime == null) {
-                return Skeletonizer(
-                  child: Text(
-                    "1h 30min • Horror, Action",
-                    style: context.textTheme.bodyLarge?.copyWith(
-                      color: AppColors.grey,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                );
-              }
-
-              final runtime = movie.runtime != null
-                  ? '${movie.runtime! ~/ 60}h${movie.runtime! % 60}m'
-                  : '';
-              final genres = movie.genres?.map((g) => g.name).join(', ') ?? '';
-              return Text(
-                genres.isNotEmpty ? "$runtime • $genres" : runtime,
-                style: context.textTheme.bodyLarge?.copyWith(
-                  color: AppColors.grey,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              );
-            },
+          child: Text(
+            "${movieData.shortRunTime} • ${movieData.getGenres}",
+            style: context.textTheme.bodyLarge?.copyWith(color: AppColors.grey),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
 
@@ -217,6 +167,33 @@ class _CarouselMovieCardState extends State<CarouselMovieCard> {
           ],
         ),
       ],
+    );
+  }
+}
+
+class MovieCarouselSkeleton extends StatelessWidget {
+  const MovieCarouselSkeleton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Skeletonizer(
+      enabled: true,
+      child: CarouselSlider.builder(
+        itemCount: 5,
+        itemBuilder: (ctx, i, _) {
+          return Bone(
+            width: double.infinity,
+            height: double.infinity,
+            borderRadius: BorderRadius.circular(16),
+          );
+        },
+        options: CarouselOptions(
+          aspectRatio: 1,
+          enlargeCenterPage: true,
+          enlargeFactor: 0.25,
+          viewportFraction: 0.65,
+        ),
+      ),
     );
   }
 }

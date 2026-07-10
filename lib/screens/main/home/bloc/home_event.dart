@@ -14,15 +14,6 @@ class LoadNowPlayingMovie extends HomeEvent {
   List<Object> get props => [];
 }
 
-class LoadMovieDetailById extends HomeEvent {
-  const LoadMovieDetailById({required this.id});
-
-  final int id;
-
-  @override
-  List<Object> get props => [id];
-}
-
 class LoadComingSoonMovie extends HomeEvent {
   const LoadComingSoonMovie();
 

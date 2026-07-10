@@ -10,10 +10,10 @@ class HomeRepository {
   Future<List<MovieDataModel>> getNowPlayingMovies() async {
     final response = await _client.get(
       ApiEndpoints.nowPlaying,
-      queryParameters: {"language": "en-US", "page": 1},
+      queryParameters: {"language": "en-US", "page": 1, "region": "TH"},
     );
     final data = response.data['results'] as List;
-    return MovieDataModel.parseList(data.sublist(0, 6));
+    return MovieDataModel.parseList(data.take(6).toList());
   }
 
   Future<MovieDataModel> getMovieDetailById(int id) async {
