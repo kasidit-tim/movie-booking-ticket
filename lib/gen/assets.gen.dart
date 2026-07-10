@@ -35,6 +35,10 @@ class $AssetsImagesGeneralGen {
   SvgGenImage get arrowLeft =>
       const SvgGenImage('assets/images/general/arrow_left.svg');
 
+  /// File path: assets/images/general/calendar.svg
+  SvgGenImage get calendar =>
+      const SvgGenImage('assets/images/general/calendar.svg');
+
   /// File path: assets/images/general/clock.svg
   SvgGenImage get clock => const SvgGenImage('assets/images/general/clock.svg');
 
@@ -55,6 +59,7 @@ class $AssetsImagesGeneralGen {
   /// List of all assets
   List<SvgGenImage> get values => [
     arrowLeft,
+    calendar,
     clock,
     location,
     search,
@@ -164,7 +169,11 @@ class $AssetsImagesProfileMenuGen {
 class Assets {
   const Assets._();
 
+  static const String aEnv = '.env';
   static const $AssetsImagesGen images = $AssetsImagesGen();
+
+  /// List of all assets
+  static List<String> get values => [aEnv];
 }
 
 class SvgGenImage {

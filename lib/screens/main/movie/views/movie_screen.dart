@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_booking_ticket/core/theme/app_colors.dart';
 import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/widgets/movie_card.dart';
+import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 import 'package:movie_booking_ticket/screens/main/movie/bloc/movie_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/movie/views/widgets/movie_tab_button.dart';
 
@@ -65,7 +66,7 @@ class MovieScreen extends StatelessWidget {
                   childAspectRatio: 0.44,
                 ),
                 itemBuilder: (context, i) {
-                  return MovieCard();
+                  return MovieCard(data: MovieDataModel());
                 },
               ),
             ),

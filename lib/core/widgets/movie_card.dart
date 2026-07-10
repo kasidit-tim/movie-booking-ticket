@@ -5,11 +5,19 @@ import 'package:movie_booking_ticket/core/theme/app_colors.dart';
 import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
+import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 
 class MovieCard extends StatelessWidget {
-  const MovieCard({super.key, this.showRatingStar = true});
+  const MovieCard({
+    super.key,
+    this.showRatingStar = true,
+    required this.data,
+    this.isComingSoon = false,
+  });
 
   final bool showRatingStar;
+  final MovieDataModel data;
+  final bool isComingSoon;
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +37,21 @@ class MovieCard extends StatelessWidget {
               ),
               height: 267,
               width: double.infinity,
-              child: CachedNetworkImage(
-                fit: BoxFit.cover,
-                imageUrl:
-                    "https://media.themoviedb.org/t/p/w220_and_h330_face/d08HqqeBQSwN8i8MEvpsZ8Cb438.jpg",
-              ),
+              child: data.getPosterImgW500.isEmpty
+                  ? Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.card,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    )
+                  : CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      imageUrl: data.getPosterImgW500,
+                    ),
             ),
             Gap.h16,
             Text(
-              "Shang chi: Legend of the Ten Rings",
+              "${data.title}",
               style: context.textTheme.titleMedium?.copyWith(
                 color: AppColors.primary,
               ),
@@ -50,15 +64,20 @@ class MovieCard extends StatelessWidget {
                 if (showRatingStar)
                   MovieInfoRow(
                     iconPath: Assets.images.general.star.path,
-                    text: "4.0 (982)",
+                    text: "${data.voteAverage} (${data.voteCount})",
                   ),
-                MovieInfoRow(
-                  iconPath: Assets.images.general.clock.path,
-                  text: "2 hour 5 minutes",
-                ),
+                isComingSoon
+                    ? MovieInfoRow(
+                        iconPath: Assets.images.general.calendar.path,
+                        text: data.getReleaseDate,
+                      )
+                    : MovieInfoRow(
+                        iconPath: Assets.images.general.clock.path,
+                        text: data.runTime,
+                      ),
                 MovieInfoRow(
                   iconPath: Assets.images.general.video.path,
-                  text: "Action, Sci-fi",
+                  text: data.getGenres,
                 ),
               ],
             ),
@@ -77,6 +96,14 @@ class MovieInfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [SvgPicture.asset(iconPath), Gap.w8, Text(text)]);
+    return Row(
+      children: [
+        SvgPicture.asset(iconPath),
+        Gap.w8,
+        Expanded(
+          child: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis),
+        ),
+      ],
+    );
   }
 }

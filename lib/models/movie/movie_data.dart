@@ -1,5 +1,6 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:movie_booking_ticket/core/constants/app_constants.dart';
 
 part 'movie_data.g.dart';
 
@@ -73,6 +74,23 @@ class MovieDataModel {
     return jsonList
         .map((e) => MovieDataModel.fromJson(e as Map<String, dynamic>))
         .toList();
+  }
+
+  String get shortRunTime =>
+      runtime != null ? '${runtime! ~/ 60}h${runtime! % 60}m' : '';
+
+  String get runTime =>
+      runtime != null ? '${runtime! ~/ 60} hour ${runtime! % 60} minutes' : '';
+
+  String get getGenres => genres?.map((g) => g.name).join(', ') ?? '';
+
+  String get getPosterImgW500 => ((posterPath ?? "").isNotEmpty)
+      ? "${AppConstants.imageW500}$posterPath"
+      : "";
+
+  String get getReleaseDate {
+    if (releaseDate == null) return '';
+    return '${releaseDate!.day.toString().padLeft(2, '0')}.${releaseDate!.month.toString().padLeft(2, '0')}.${releaseDate!.year}';
   }
 }
 
