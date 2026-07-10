@@ -41,7 +41,9 @@ class AppRouter {
               GoRoute(
                 path: AppRoutes.homeTab,
                 builder: (context, state) => BlocProvider(
-                  create: (_) => HomeBloc()..add(LoadNowPlayingMovie()),
+                  create: (_) => HomeBloc()
+                    ..add(LoadNowPlayingMovie())
+                    ..add(LoadComingSoonMovie()),
                   child: HomeScreen(),
                 ),
               ),

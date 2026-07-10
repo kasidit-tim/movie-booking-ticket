@@ -9,10 +9,11 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({HomeRepository? repository})
-      : _repository = repository ?? HomeRepository(),
-        super(HomeState()) {
+    : _repository = repository ?? HomeRepository(),
+      super(HomeState()) {
     on<LoadNowPlayingMovie>(_onLoadNowPlayingMovie);
     on<LoadMovieDetailById>(_onLoadMovieDeatilById);
+    on<LoadComingSoonMovie>(_onLoadComingSoonMovie);
   }
 
   final HomeRepository _repository;
@@ -61,6 +62,41 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       debugPrint("=====> LoadMovieDetailById err ${err.toString()}");
     } finally {
       emit(state.copyWith(isLoadingDetail: false));
+    }
+  }
+
+  Future<void> _onLoadComingSoonMovie(
+    LoadComingSoonMovie event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(state.copyWith(isComingSoonLoading: true));
+    try {
+      final movies = await _repository.getMovieComingSoon();
+
+      final movieDetails = await Future.wait(
+        movies.map((movie) async {
+          try {
+            return await _repository.getMovieDetailById(movie.id!);
+          } catch (e) {
+            debugPrint('Movie ${movie.id} failed: $e');
+            return null;
+          }
+        }),
+      );
+
+      final updatedMovies = List.generate(
+        movies.length,
+        (index) => movies[index].copyWith(
+          runtime: movieDetails[index]?.runtime,
+          genres: movieDetails[index]?.genres,
+        ),
+      );
+
+      emit(state.copyWith(comingSoonList: updatedMovies));
+    } catch (err) {
+      debugPrint("=====> LoadComingSoonMovie err ${err.toString()}");
+    } finally {
+      emit(state.copyWith(isComingSoonLoading: false));
     }
   }
 }

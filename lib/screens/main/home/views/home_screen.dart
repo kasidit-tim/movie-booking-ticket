@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
-import 'package:movie_booking_ticket/core/widgets/movie_card.dart';
 import 'package:movie_booking_ticket/core/widgets/my_textfield.dart';
 import 'package:movie_booking_ticket/screens/main/home/views/widgets/carousel_movie_card.dart';
+import 'package:movie_booking_ticket/screens/main/home/views/widgets/coming_soon_list.dart';
 import 'package:movie_booking_ticket/screens/main/home/views/widgets/home_section.dart';
 import 'package:movie_booking_ticket/screens/main/home/views/widgets/movie_news.dart';
 import 'package:movie_booking_ticket/screens/main/home/views/widgets/movie_services.dart';
@@ -27,15 +27,7 @@ class HomeScreen extends StatelessWidget {
 
               CarouselMovieCard(),
 
-              HomeSection(
-                title: "Coming soon",
-                child: _horizonList(
-                  child: SizedBox(
-                    width: 175,
-                    child: MovieCard(showRatingStar: false),
-                  ),
-                ),
-              ),
+              ComingSoonList(),
 
               HomeSection(
                 title: "Promo & Discount",

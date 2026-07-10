@@ -23,4 +23,25 @@ class HomeRepository {
     );
     return MovieDataModel.fromJson(response.data);
   }
+
+  Future<List<MovieDataModel>> getMovieComingSoon() async {
+    final response = await _client.get(
+      ApiEndpoints.comingSoon,
+      queryParameters: {
+        "sort_by": "popularity.desc",
+        "with_release_type": "2|3",
+        "release_date.gte": DateTime.now()
+            .add(Duration(days: 30))
+            .toString()
+            .substring(0, 10),
+        "release_date.lte": DateTime.now()
+            .add(Duration(days: 60))
+            .toString()
+            .substring(0, 10),
+        "region": "TH",
+      },
+    );
+    final data = response.data['results'] as List;
+    return MovieDataModel.parseList(data.take(6).toList());
+  }
 }

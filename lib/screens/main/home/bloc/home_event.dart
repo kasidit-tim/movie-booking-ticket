@@ -22,3 +22,10 @@ class LoadMovieDetailById extends HomeEvent {
   @override
   List<Object> get props => [id];
 }
+
+class LoadComingSoonMovie extends HomeEvent {
+  const LoadComingSoonMovie();
+
+  @override
+  List<Object> get props => [];
+}
