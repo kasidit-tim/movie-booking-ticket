@@ -6,9 +6,51 @@ import 'package:movie_booking_ticket/core/widgets/movie_card.dart';
 import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 import 'package:movie_booking_ticket/screens/main/movie/bloc/movie_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/movie/views/widgets/movie_tab_button.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-class MovieScreen extends StatelessWidget {
+class MovieScreen extends StatefulWidget {
   const MovieScreen({super.key});
+
+  @override
+  State<MovieScreen> createState() => _MovieScreenState();
+}
+
+class _MovieScreenState extends State<MovieScreen> {
+  final _scrollController = ScrollController();
+  static const _gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2,
+    crossAxisSpacing: 16,
+    mainAxisSpacing: 24,
+    childAspectRatio: 0.44,
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      final bloc = context.read<MovieBloc>();
+      final state = bloc.state;
+      if (state.isLoadingMore) return;
+
+      final hasMorePages =
+          (state.nowPlayingMovies.page ?? 0) <
+          (state.nowPlayingMovies.totalPages ?? 0);
+      if (!hasMorePages) return;
+      bloc.add(LoadMoreNowPlayingEvent());
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,22 +98,81 @@ class MovieScreen extends StatelessWidget {
             ),
             Gap.h32,
             Expanded(
-              child: GridView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                itemCount: 10,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 24,
-                  childAspectRatio: 0.44,
-                ),
-                itemBuilder: (context, i) {
-                  return MovieCard(data: MovieDataModel());
+              child: BlocBuilder<MovieBloc, MovieState>(
+                buildWhen: (prev, curr) {
+                  return prev.tab != curr.tab ||
+                      prev.isNowPlayingLoading != curr.isNowPlayingLoading ||
+                      prev.isLoadingMore != curr.isLoadingMore ||
+                      prev.nowPlayingMovies.results !=
+                          curr.nowPlayingMovies.results;
+                },
+                builder: (context, state) {
+                  if (state.isNowPlayingLoading) {
+                    return _buildSkeletonGrid();
+                  }
+                  if (state.nowPlayingMovies.results?.isEmpty ?? false) {
+                    return SizedBox();
+                  }
+
+                  final movieList = state.tab == MovieTab.nowPlaying
+                      ? state.nowPlayingMovies.results ?? []
+                      : [];
+
+                  return CustomScrollView(
+                    controller: _scrollController,
+                    slivers: [
+                      SliverPadding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        sliver: SliverGrid(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, i) => MovieCard(data: movieList[i]),
+                            childCount: movieList.length,
+                          ),
+                          gridDelegate: _gridDelegate,
+                        ),
+                      ),
+                      if (state.isLoadingMore)
+                        SliverPadding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 24,
+                          ),
+                          sliver: SliverGrid(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, i) => _buildSkeletonCard(),
+                              childCount: 2,
+                            ),
+                            gridDelegate: _gridDelegate,
+                          ),
+                        ),
+                    ],
+                  );
                 },
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildSkeletonCard() {
+    return Skeletonizer(
+      enabled: true,
+      child: MovieCard(data: MovieDataModel(title: 'Loading')),
+    );
+  }
+
+  Widget _buildSkeletonGrid() {
+    return Skeletonizer(
+      enabled: true,
+      child: GridView.builder(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: 6,
+        gridDelegate: _gridDelegate,
+        itemBuilder: (context, i) =>
+            MovieCard(data: MovieDataModel(title: 'Loading')),
       ),
     );
   }

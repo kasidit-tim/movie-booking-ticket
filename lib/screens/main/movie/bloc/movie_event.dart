@@ -15,3 +15,7 @@ class ChangeTabEvent extends MovieEvent {
   @override
   List<Object?> get props => [tab];
 }
+
+class LoadAllNowPlayingEvent extends MovieEvent {}
+
+class LoadMoreNowPlayingEvent extends MovieEvent {}

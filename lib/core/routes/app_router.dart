@@ -66,7 +66,7 @@ class AppRouter {
               GoRoute(
                 path: AppRoutes.movieTab,
                 builder: (context, state) => BlocProvider(
-                  create: (_) => MovieBloc(),
+                  create: (_) => MovieBloc()..add(LoadAllNowPlayingEvent()),
                   child: MovieScreen(),
                 ),
               ),
