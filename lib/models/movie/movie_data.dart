@@ -76,6 +76,8 @@ class MovieDataModel {
         .toList();
   }
 
+  bool get hasDetail => runtime != null && genres != null;
+
   String get shortRunTime =>
       runtime != null ? '${runtime! ~/ 60}h${runtime! % 60}m' : '';
 

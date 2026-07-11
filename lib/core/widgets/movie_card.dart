@@ -6,6 +6,7 @@ import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
 import 'package:movie_booking_ticket/models/movie/movie_data.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MovieCard extends StatelessWidget {
   const MovieCard({
@@ -55,6 +56,8 @@ class MovieCard extends StatelessWidget {
               style: context.textTheme.titleMedium?.copyWith(
                 color: AppColors.primary,
               ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
             Gap.h8,
             Column(
@@ -66,18 +69,25 @@ class MovieCard extends StatelessWidget {
                     iconPath: Assets.images.general.star.path,
                     text: "${data.voteAverage} (${data.voteCount})",
                   ),
-                isComingSoon
-                    ? MovieInfoRow(
-                        iconPath: Assets.images.general.calendar.path,
-                        text: data.getReleaseDate,
-                      )
-                    : MovieInfoRow(
-                        iconPath: Assets.images.general.clock.path,
-                        text: data.runTime,
+                Skeletonizer(
+                  enabled: !data.hasDetail,
+                  child: Column(
+                    children: [
+                      isComingSoon
+                          ? MovieInfoRow(
+                              iconPath: Assets.images.general.calendar.path,
+                              text: data.getReleaseDate,
+                            )
+                          : MovieInfoRow(
+                              iconPath: Assets.images.general.clock.path,
+                              text: data.runTime.isNotEmpty ? data.runTime : "1h 30min",
+                            ),
+                      MovieInfoRow(
+                        iconPath: Assets.images.general.video.path,
+                        text: data.getGenres.isNotEmpty ? data.getGenres : "Action, Drama",
                       ),
-                MovieInfoRow(
-                  iconPath: Assets.images.general.video.path,
-                  text: data.getGenres,
+                    ],
+                  ),
                 ),
               ],
             ),
