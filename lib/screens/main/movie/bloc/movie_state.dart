@@ -1,39 +1,30 @@
 part of 'movie_bloc.dart';
 
-enum MovieTab { nowPlaying, commingSoon }
+enum MovieTab { nowPlaying, comingSoon }
 
 class MovieState extends Equatable {
   final MovieTab tab;
-  final MoviePaginateData nowPlayingMovies;
-  final bool isNowPlayingLoading;
-  final bool isLoadingMore;
+  final MovieSectionState nowPlaying;
+  final MovieSectionState comingSoon;
 
   const MovieState({
     this.tab = MovieTab.nowPlaying,
-    required this.nowPlayingMovies,
-    this.isNowPlayingLoading = false,
-    this.isLoadingMore = false,
+    required this.nowPlaying,
+    required this.comingSoon,
   });
 
   MovieState copyWith({
     MovieTab? tab,
-    MoviePaginateData? nowPlayingMovies,
-    bool? isNowPlayingLoading,
-    bool? isLoadingMore,
+    MovieSectionState? nowPlaying,
+    MovieSectionState? comingSoon,
   }) {
     return MovieState(
       tab: tab ?? this.tab,
-      nowPlayingMovies: nowPlayingMovies ?? this.nowPlayingMovies,
-      isNowPlayingLoading: isNowPlayingLoading ?? this.isNowPlayingLoading,
-      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+      nowPlaying: nowPlaying ?? this.nowPlaying,
+      comingSoon: comingSoon ?? this.comingSoon,
     );
   }
 
   @override
-  List<Object?> get props => [
-    tab,
-    nowPlayingMovies,
-    isNowPlayingLoading,
-    isLoadingMore,
-  ];
+  List<Object?> get props => [tab, nowPlaying, comingSoon];
 }

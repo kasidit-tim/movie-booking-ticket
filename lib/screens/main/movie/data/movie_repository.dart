@@ -24,4 +24,22 @@ class MovieRepository {
     );
     return MovieDataModel.fromJson(response.data);
   }
+
+  Future<MoviePaginateData> getMovieComingSoon({int page = 1}) async {
+    final response = await _client.get(
+      ApiEndpoints.comingSoon,
+      queryParameters: {
+        "sort_by": "popularity.desc",
+        "with_release_type": "2|3",
+        "release_date.gte": DateTime.now()
+            .add(Duration(days: 30))
+            .toString()
+            .substring(0, 10),
+        "region": "TH",
+        "page": page,
+      },
+    );
+    final data = response.data;
+    return MoviePaginateData.fromJson(data);
+  }
 }
