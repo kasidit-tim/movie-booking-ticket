@@ -139,8 +139,10 @@ class _MovieListPageState extends State<MovieListPage>
         physics: const NeverScrollableScrollPhysics(),
         itemCount: 6,
         gridDelegate: _gridDelegate(),
-        itemBuilder: (context, i) =>
-            MovieCard(data: MovieDataModel(title: 'Loading')),
+        itemBuilder: (context, i) => MovieCard(
+          data: MovieDataModel(title: 'Loading'),
+          isComingSoon: widget.tab == MovieTab.comingSoon,
+        ),
       ),
     );
   }
