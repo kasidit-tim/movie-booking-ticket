@@ -9,14 +9,8 @@ import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class MovieCard extends StatelessWidget {
-  const MovieCard({
-    super.key,
-    this.showRatingStar = true,
-    required this.data,
-    this.isComingSoon = false,
-  });
+  const MovieCard({super.key, required this.data, this.isComingSoon = false});
 
-  final bool showRatingStar;
   final MovieDataModel data;
   final bool isComingSoon;
 
@@ -64,7 +58,7 @@ class MovieCard extends StatelessWidget {
               spacing: 4,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (showRatingStar)
+                if (!isComingSoon)
                   MovieInfoRow(
                     iconPath: Assets.images.general.star.path,
                     text: "${data.voteAverage} (${data.voteCount})",
@@ -80,11 +74,15 @@ class MovieCard extends StatelessWidget {
                             )
                           : MovieInfoRow(
                               iconPath: Assets.images.general.clock.path,
-                              text: data.runTime.isNotEmpty ? data.runTime : "1h 30min",
+                              text: data.runTime.isNotEmpty
+                                  ? data.runTime
+                                  : "1h 30min",
                             ),
                       MovieInfoRow(
                         iconPath: Assets.images.general.video.path,
-                        text: data.getGenres.isNotEmpty ? data.getGenres : "Action, Drama",
+                        text: data.getGenres.isNotEmpty
+                            ? data.getGenres
+                            : "Action, Drama",
                       ),
                     ],
                   ),

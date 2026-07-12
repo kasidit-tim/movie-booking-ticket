@@ -15,7 +15,10 @@ class ComingSoonList extends StatelessWidget {
       title: 'Loading',
       posterPath: null,
       releaseDate: DateTime(2026, 7, 10),
-      genres: [Genre(name: "Test A"), Genre(name: "Test B")],
+      genres: [
+        Genre(name: "Test A"),
+        Genre(name: "Test B"),
+      ],
     ),
   );
 
@@ -42,17 +45,10 @@ class ComingSoonList extends StatelessWidget {
                 children: List.generate(list.length, (i) {
                   final movieData = list[i];
                   return Padding(
-                    padding: EdgeInsets.only(
-                      left: i == 0 ? 16 : 0,
-                      right: 16,
-                    ),
+                    padding: EdgeInsets.only(left: i == 0 ? 16 : 0, right: 16),
                     child: SizedBox(
                       width: 175,
-                      child: MovieCard(
-                        data: movieData,
-                        isComingSoon: true,
-                        showRatingStar: false,
-                      ),
+                      child: MovieCard(data: movieData, isComingSoon: true),
                     ),
                   );
                 }),
