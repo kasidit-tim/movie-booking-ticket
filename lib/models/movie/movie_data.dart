@@ -1,4 +1,5 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:movie_booking_ticket/core/constants/app_constants.dart';
 
@@ -6,36 +7,36 @@ part 'movie_data.g.dart';
 
 @CopyWith()
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-class MovieDataModel {
-  bool? adult;
-  String? backdropPath;
-  dynamic belongsToCollection;
-  int? budget;
-  List<Genre>? genres;
-  String? homepage;
-  int? id;
-  String? imdbId;
-  List<String>? originCountry;
-  String? originalLanguage;
-  String? originalTitle;
-  String? overview;
-  double? popularity;
-  String? posterPath;
-  List<ProductionCompany>? productionCompanies;
-  List<ProductionCountry>? productionCountries;
-  DateTime? releaseDate;
-  int? revenue;
-  int? runtime;
-  bool? softcore;
-  List<SpokenLanguage>? spokenLanguages;
-  String? status;
-  String? tagline;
-  String? title;
-  bool? video;
-  double? voteAverage;
-  int? voteCount;
+class MovieDataModel extends Equatable {
+  final bool? adult;
+  final String? backdropPath;
+  final dynamic belongsToCollection;
+  final int? budget;
+  final List<Genre>? genres;
+  final String? homepage;
+  final int? id;
+  final String? imdbId;
+  final List<String>? originCountry;
+  final String? originalLanguage;
+  final String? originalTitle;
+  final String? overview;
+  final double? popularity;
+  final String? posterPath;
+  final List<ProductionCompany>? productionCompanies;
+  final List<ProductionCountry>? productionCountries;
+  final DateTime? releaseDate;
+  final int? revenue;
+  final int? runtime;
+  final bool? softcore;
+  final List<SpokenLanguage>? spokenLanguages;
+  final String? status;
+  final String? tagline;
+  final String? title;
+  final bool? video;
+  final double? voteAverage;
+  final int? voteCount;
 
-  MovieDataModel({
+  const MovieDataModel({
     this.adult,
     this.backdropPath,
     this.belongsToCollection,
@@ -94,6 +95,9 @@ class MovieDataModel {
     if (releaseDate == null) return '';
     return '${releaseDate!.day.toString().padLeft(2, '0')}.${releaseDate!.month.toString().padLeft(2, '0')}.${releaseDate!.year}';
   }
+
+  @override
+  List<Object?> get props => [id, runtime, genres];
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
