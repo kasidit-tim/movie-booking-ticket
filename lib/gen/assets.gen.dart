@@ -39,12 +39,20 @@ class $AssetsImagesGeneralGen {
   SvgGenImage get arrowLeft =>
       const SvgGenImage('assets/images/general/arrow_left.svg');
 
+  /// File path: assets/images/general/arrow_right.svg
+  SvgGenImage get arrowRight =>
+      const SvgGenImage('assets/images/general/arrow_right.svg');
+
   /// File path: assets/images/general/calendar.svg
   SvgGenImage get calendar =>
       const SvgGenImage('assets/images/general/calendar.svg');
 
   /// File path: assets/images/general/clock.svg
   SvgGenImage get clock => const SvgGenImage('assets/images/general/clock.svg');
+
+  /// File path: assets/images/general/discount.svg
+  SvgGenImage get discount =>
+      const SvgGenImage('assets/images/general/discount.svg');
 
   /// File path: assets/images/general/location.svg
   SvgGenImage get location =>
@@ -64,16 +72,23 @@ class $AssetsImagesGeneralGen {
   /// File path: assets/images/general/video.svg
   SvgGenImage get video => const SvgGenImage('assets/images/general/video.svg');
 
+  /// File path: assets/images/general/video_play.svg
+  SvgGenImage get videoPlay =>
+      const SvgGenImage('assets/images/general/video_play.svg');
+
   /// List of all assets
   List<SvgGenImage> get values => [
     arrowLeft,
+    arrowRight,
     calendar,
     clock,
+    discount,
     location,
     search,
     semiCircle,
     star,
     video,
+    videoPlay,
   ];
 }
 
