@@ -7,4 +7,6 @@ class AppRoutes {
   static const movieTab = '/movie';
   static const ticketTab = '/ticket';
   static const profileTab = '/profile';
+
+  static const ticketDetail = '/ticketDetail';
 }

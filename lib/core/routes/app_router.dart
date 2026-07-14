@@ -10,6 +10,7 @@ import 'package:movie_booking_ticket/screens/main/profile/views/profile_screen.d
 import 'package:movie_booking_ticket/screens/splash/bloc/splash_bloc.dart';
 import 'package:movie_booking_ticket/screens/splash/views/splash_screen.dart';
 import 'package:movie_booking_ticket/screens/main/ticket/views/ticket_screen.dart';
+import 'package:movie_booking_ticket/screens/ticket_detail/views/ticket_detail_screen.dart';
 import 'app_routes.dart';
 
 class AppRouter {
@@ -85,6 +86,13 @@ class AppRouter {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        path: '${AppRoutes.ticketDetail}/:id',
+        builder: (ctx, state) {
+          // final id = int.parse(state.pathParameters['id']!);
+          return TicketDetailScreen();
+        },
       ),
     ],
   );
