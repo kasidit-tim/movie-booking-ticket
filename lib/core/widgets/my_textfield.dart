@@ -4,7 +4,18 @@ import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
 
 class MyTextfield extends StatelessWidget {
-  const MyTextfield({super.key});
+  const MyTextfield({
+    super.key,
+    this.hintText,
+    this.hintStyle,
+    this.prefixIcon,
+    this.suffixIcon,
+  });
+
+  final String? hintText;
+  final TextStyle? hintStyle;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +33,18 @@ class MyTextfield extends StatelessWidget {
         fillColor: AppColors.textFieldBg,
         focusColor: AppColors.textFieldBg,
         hoverColor: AppColors.textFieldBg,
-        prefixIcon: Padding(
-          padding: const EdgeInsets.only(left: 16, right: 12),
-          child: Assets.images.general.search.svg(),
-        ),
+        prefixIcon:
+            prefixIcon ??
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 12),
+              child: Assets.images.general.search.svg(),
+            ),
         prefixIconConstraints: BoxConstraints(minHeight: 24, maxHeight: 24),
-        hintText: "Search",
-        hintStyle: context.textTheme.bodyLarge?.copyWith(
-          color: AppColors.hintText,
-        ),
+        hintText: hintText ?? "Search",
+        hintStyle:
+            hintStyle ??
+            context.textTheme.bodyLarge?.copyWith(color: AppColors.hintText),
+        suffixIcon: suffixIcon,
       ),
     );
   }
