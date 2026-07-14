@@ -26,6 +26,10 @@ class $AssetsImagesGen {
   /// Directory path: assets/images/profile_menu
   $AssetsImagesProfileMenuGen get profileMenu =>
       const $AssetsImagesProfileMenuGen();
+
+  /// Directory path: assets/images/ticket_detail
+  $AssetsImagesTicketDetailGen get ticketDetail =>
+      const $AssetsImagesTicketDetailGen();
 }
 
 class $AssetsImagesGeneralGen {
@@ -50,6 +54,10 @@ class $AssetsImagesGeneralGen {
   SvgGenImage get search =>
       const SvgGenImage('assets/images/general/search.svg');
 
+  /// File path: assets/images/general/semi_circle.svg
+  SvgGenImage get semiCircle =>
+      const SvgGenImage('assets/images/general/semi_circle.svg');
+
   /// File path: assets/images/general/star.svg
   SvgGenImage get star => const SvgGenImage('assets/images/general/star.svg');
 
@@ -63,6 +71,7 @@ class $AssetsImagesGeneralGen {
     clock,
     location,
     search,
+    semiCircle,
     star,
     video,
   ];
@@ -163,6 +172,39 @@ class $AssetsImagesProfileMenuGen {
     sms,
     ticket,
     translate,
+  ];
+}
+
+class $AssetsImagesTicketDetailGen {
+  const $AssetsImagesTicketDetailGen();
+
+  /// File path: assets/images/ticket_detail/Seat Cinema.svg
+  SvgGenImage get seatCinema =>
+      const SvgGenImage('assets/images/ticket_detail/Seat Cinema.svg');
+
+  /// File path: assets/images/ticket_detail/calendar.svg
+  SvgGenImage get calendar =>
+      const SvgGenImage('assets/images/ticket_detail/calendar.svg');
+
+  /// File path: assets/images/ticket_detail/location.svg
+  SvgGenImage get location =>
+      const SvgGenImage('assets/images/ticket_detail/location.svg');
+
+  /// File path: assets/images/ticket_detail/money-send.svg
+  SvgGenImage get moneySend =>
+      const SvgGenImage('assets/images/ticket_detail/money-send.svg');
+
+  /// File path: assets/images/ticket_detail/note.svg
+  SvgGenImage get note =>
+      const SvgGenImage('assets/images/ticket_detail/note.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [
+    seatCinema,
+    calendar,
+    location,
+    moneySend,
+    note,
   ];
 }
 
