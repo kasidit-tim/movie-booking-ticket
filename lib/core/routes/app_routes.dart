@@ -9,4 +9,5 @@ class AppRoutes {
   static const profileTab = '/profile';
 
   static const ticketDetail = '/ticketDetail';
+  static const payment = '/payment';
 }

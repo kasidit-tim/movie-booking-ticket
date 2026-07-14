@@ -7,6 +7,7 @@ import 'package:movie_booking_ticket/screens/main/movie/bloc/movie_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/views/main_screen.dart';
 import 'package:movie_booking_ticket/screens/main/movie/views/movie_screen.dart';
 import 'package:movie_booking_ticket/screens/main/profile/views/profile_screen.dart';
+import 'package:movie_booking_ticket/screens/payment/views/payment_views.dart';
 import 'package:movie_booking_ticket/screens/splash/bloc/splash_bloc.dart';
 import 'package:movie_booking_ticket/screens/splash/views/splash_screen.dart';
 import 'package:movie_booking_ticket/screens/main/ticket/views/ticket_screen.dart';
@@ -92,6 +93,12 @@ class AppRouter {
         builder: (ctx, state) {
           // final id = int.parse(state.pathParameters['id']!);
           return TicketDetailScreen();
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.payment,
+        builder: (ctx, state) {
+          return PaymentScreen();
         },
       ),
     ],
