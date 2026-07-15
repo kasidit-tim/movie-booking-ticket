@@ -4,12 +4,17 @@ import 'package:movie_booking_ticket/core/theme/app_colors.dart';
 import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
+import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 
 class TicketCard extends StatelessWidget {
-  const TicketCard({super.key});
+  const TicketCard({
+    super.key,
+    required this.movie,
+    required this.dateTimeDisplay,
+  });
 
-  static const _imageUrl =
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM9TbxAf-nQ_7WcBLbZSXfAIYi9fwMZ9WJ9-vpFqcXAlEiVrbhlv9gRchN&s=10";
+  final MovieDataModel movie;
+  final String dateTimeDisplay;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,7 @@ class TicketCard extends StatelessWidget {
               CachedNetworkImage(
                 width: 99,
                 fit: BoxFit.cover,
-                imageUrl: _imageUrl,
+                imageUrl: movie.getPosterImgW500,
               ),
               Gap.w16,
               Padding(
@@ -37,7 +42,7 @@ class TicketCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Avengers: Infinity War",
+                      movie.title ?? "",
                       style: context.textTheme.titleLarge?.copyWith(
                         color: AppColors.primary,
                       ),
@@ -48,7 +53,7 @@ class TicketCard extends StatelessWidget {
                         height: 16,
                         width: 16,
                       ),
-                      text: "Acton, adventure, sci-fi",
+                      text: movie.getGenres,
                     ),
                     Gap.h8,
                     _InfoRow(
@@ -64,7 +69,7 @@ class TicketCard extends StatelessWidget {
                         height: 16,
                         width: 16,
                       ),
-                      text: "14h15 • 16.12.2022",
+                      text: dateTimeDisplay,
                     ),
                   ],
                 ),

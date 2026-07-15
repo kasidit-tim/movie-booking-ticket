@@ -6,12 +6,16 @@ import 'package:movie_booking_ticket/core/widgets/bottom_nav_button.dart';
 import 'package:movie_booking_ticket/core/widgets/main_app_bar.dart';
 import 'package:movie_booking_ticket/core/widgets/my_textfield.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
+import 'package:movie_booking_ticket/models/booking_data.dart';
 
 import 'widgets/payment_method_list.dart';
+import 'widgets/payment_timer.dart';
 import 'widgets/ticket_card.dart';
 
 class PaymentScreen extends StatelessWidget {
-  const PaymentScreen({super.key});
+  const PaymentScreen({super.key, required this.booking});
+
+  final BookingData booking;
 
   @override
   Widget build(BuildContext context) {
@@ -24,56 +28,63 @@ class PaymentScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Gap.h16,
-              const TicketCard(),
+              TicketCard(
+                movie: booking.movie,
+                dateTimeDisplay: booking.dateTimeDisplay,
+              ),
               Gap.h32,
-              const _OrderInfoSection(),
+              _OrderInfoSection(
+                orderId: booking.orderId,
+                seats: booking.seatDisplay,
+              ),
               Gap.h24,
               const _DiscountCodeInput(),
               Gap.h32,
               const Divider(height: 0),
               Gap.h32,
-              const _TotalRow(),
+              _TotalRow(total: booking.totalPrice),
               Gap.h32,
               const PaymentMethodList(),
               Gap.h32,
-              const _PaymentTimer(),
+              const PaymentTimer(),
               Gap.h32,
             ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavButton(label: "Continue", onPressed: () {}),
+      bottomNavigationBar: MainBottomNavButton(
+        label: "Continue",
+        onPressed: () {},
+      ),
     );
   }
 }
 
 class _OrderInfoSection extends StatelessWidget {
-  const _OrderInfoSection();
+  const _OrderInfoSection({required this.orderId, required this.seats});
+
+  final String orderId;
+  final String seats;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _DetailRow(label: "Order ID", value: "78889377726"),
-        _DetailRow(label: "Seat", value: "H7, H8"),
-      ],
-    );
-  }
-}
-
-class _DetailRow extends StatelessWidget {
-  const _DetailRow({required this.label, required this.value});
-
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(label, style: context.textTheme.bodyLarge),
-        Text(value, style: context.textTheme.titleMedium),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("Order ID", style: context.textTheme.bodyLarge),
+            Text(orderId, style: context.textTheme.titleMedium),
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(child: Text("Seat", style: context.textTheme.bodyLarge)),
+            Expanded(child: Text(seats, style: context.textTheme.titleMedium, textAlign: TextAlign.end)),
+          ],
+        ),
       ],
     );
   }
@@ -119,7 +130,9 @@ class _DiscountCodeInput extends StatelessWidget {
 }
 
 class _TotalRow extends StatelessWidget {
-  const _TotalRow();
+  const _TotalRow({required this.total});
+
+  final double total;
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +141,7 @@ class _TotalRow extends StatelessWidget {
       children: [
         Text("Total", style: context.textTheme.bodyLarge),
         Text(
-          "189 THB",
+          "${total.toStringAsFixed(2)} THB",
           style: context.textTheme.headlineSmall?.copyWith(
             color: AppColors.primary,
           ),
@@ -138,32 +151,3 @@ class _TotalRow extends StatelessWidget {
   }
 }
 
-class _PaymentTimer extends StatelessWidget {
-  const _PaymentTimer();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.cardSelected,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "Complete your payment in",
-            style: context.textTheme.titleMedium,
-          ),
-          Text(
-            "15:00",
-            style: context.textTheme.titleMedium?.copyWith(
-              color: AppColors.primary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
