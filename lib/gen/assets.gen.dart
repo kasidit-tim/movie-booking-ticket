@@ -47,6 +47,10 @@ class $AssetsImagesGeneralGen {
   SvgGenImage get calendar =>
       const SvgGenImage('assets/images/general/calendar.svg');
 
+  /// File path: assets/images/general/cinema_screen.svg
+  SvgGenImage get cinemaScreen =>
+      const SvgGenImage('assets/images/general/cinema_screen.svg');
+
   /// File path: assets/images/general/clock.svg
   SvgGenImage get clock => const SvgGenImage('assets/images/general/clock.svg');
 
@@ -81,6 +85,7 @@ class $AssetsImagesGeneralGen {
     arrowLeft,
     arrowRight,
     calendar,
+    cinemaScreen,
     clock,
     discount,
     location,
@@ -226,11 +231,7 @@ class $AssetsImagesTicketDetailGen {
 class Assets {
   const Assets._();
 
-  static const String aEnv = '.env';
   static const $AssetsImagesGen images = $AssetsImagesGen();
-
-  /// List of all assets
-  static List<String> get values => [aEnv];
 }
 
 class SvgGenImage {

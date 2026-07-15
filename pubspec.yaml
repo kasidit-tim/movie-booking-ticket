@@ -38,6 +38,9 @@ dev_dependencies:
 
 
 flutter_gen:
+  assets:
+    exclude:
+      - .env
   output: lib/gen/ 
   line_length: 80
 
