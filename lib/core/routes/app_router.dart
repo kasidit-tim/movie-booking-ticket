@@ -8,6 +8,10 @@ import 'package:movie_booking_ticket/screens/main/views/main_screen.dart';
 import 'package:movie_booking_ticket/screens/main/movie/views/movie_screen.dart';
 import 'package:movie_booking_ticket/screens/main/profile/views/profile_screen.dart';
 import 'package:movie_booking_ticket/screens/payment/views/payment_views.dart';
+import 'package:movie_booking_ticket/models/booking_data.dart';
+import 'package:movie_booking_ticket/models/movie/movie_data.dart';
+import 'package:movie_booking_ticket/screens/seat_selection/bloc/seat_selection_bloc.dart';
+import 'package:movie_booking_ticket/screens/seat_selection/views/seat_selection_screen.dart';
 import 'package:movie_booking_ticket/screens/splash/bloc/splash_bloc.dart';
 import 'package:movie_booking_ticket/screens/splash/views/splash_screen.dart';
 import 'package:movie_booking_ticket/screens/main/ticket/views/ticket_screen.dart';
@@ -98,7 +102,19 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.payment,
         builder: (ctx, state) {
-          return PaymentScreen();
+          final booking = state.extra as BookingData;
+          print(">>>>>>>>>booking ${booking}");
+          return PaymentScreen(booking: booking);
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.selectSeat,
+        builder: (ctx, state) {
+          final movie = state.extra as MovieDataModel;
+          return BlocProvider(
+            create: (_) => SeatSelectionBloc(),
+            child: SeatSelectionScreen(movie: movie),
+          );
         },
       ),
     ],

@@ -10,4 +10,5 @@ class AppRoutes {
 
   static const ticketDetail = '/ticketDetail';
   static const payment = '/payment';
+  static const selectSeat = '/selectSeat';
 }
