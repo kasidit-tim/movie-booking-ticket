@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -6,20 +5,20 @@ import 'package:movie_booking_ticket/core/routes/app_routes.dart';
 import 'package:movie_booking_ticket/core/theme/app_colors.dart';
 import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
+import 'package:movie_booking_ticket/core/utils/booking_utils.dart';
 import 'package:movie_booking_ticket/core/widgets/bottom_nav_button.dart';
 import 'package:movie_booking_ticket/core/widgets/main_app_bar.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
 import 'package:movie_booking_ticket/models/booking_data.dart';
-import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 import 'package:movie_booking_ticket/screens/seat_selection/bloc/seat_selection_bloc.dart';
 import 'package:movie_booking_ticket/screens/seat_selection/views/widgets/date_time_picker.dart';
 import 'package:movie_booking_ticket/screens/seat_selection/views/widgets/seat_guide.dart';
 import 'package:movie_booking_ticket/screens/seat_selection/views/widgets/seat_map_section.dart';
 
 class SeatSelectionScreen extends StatefulWidget {
-  const SeatSelectionScreen({super.key, required this.movie});
+  const SeatSelectionScreen({super.key, required this.booking});
 
-  final MovieDataModel movie;
+  final BookingData booking;
 
   @override
   State<SeatSelectionScreen> createState() => _SeatSelectionScreenState();
@@ -37,11 +36,6 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
     super.dispose();
   }
 
-  String _generateOrderId() {
-    final random = Random();
-    return List.generate(11, (_) => random.nextInt(10)).join();
-  }
-
   void _onBuyTicket() {
     final state = context.read<SeatSelectionBloc>().state;
     if (!state.isDateTimeSelected) {
@@ -57,13 +51,12 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
       return;
     }
 
-    final booking = BookingData(
-      movie: widget.movie,
+    final booking = widget.booking.copyWith(
       seats: state.selectedSeats,
       totalPrice: state.totalPrice,
-      date: state.selectedDate!,
-      time: state.selectedTime!,
-      orderId: _generateOrderId(),
+      date: state.selectedDate,
+      time: state.selectedTime,
+      orderId: generateOrderId(),
     );
 
     context.push(AppRoutes.payment, extra: booking);

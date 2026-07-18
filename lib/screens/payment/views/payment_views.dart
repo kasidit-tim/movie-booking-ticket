@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:movie_booking_ticket/core/routes/app_routes.dart';
 import 'package:movie_booking_ticket/core/theme/app_colors.dart';
 import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
@@ -6,6 +8,7 @@ import 'package:movie_booking_ticket/core/widgets/bottom_nav_button.dart';
 import 'package:movie_booking_ticket/core/widgets/main_app_bar.dart';
 import 'package:movie_booking_ticket/core/widgets/my_textfield.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
+import 'package:movie_booking_ticket/core/utils/booking_utils.dart';
 import 'package:movie_booking_ticket/models/booking_data.dart';
 
 import 'widgets/payment_method_list.dart';
@@ -30,11 +33,12 @@ class PaymentScreen extends StatelessWidget {
               Gap.h16,
               TicketCard(
                 movie: booking.movie,
-                dateTimeDisplay: booking.dateTimeDisplay,
+                cinemaName: booking.cinema.name,
+                dateTimeDisplay: formatBookingDateTime(booking.date!, booking.time),
               ),
               Gap.h32,
               _OrderInfoSection(
-                orderId: booking.orderId,
+                orderId: booking.orderId ?? '',
                 seats: booking.seatDisplay,
               ),
               Gap.h24,
@@ -54,7 +58,9 @@ class PaymentScreen extends StatelessWidget {
       ),
       bottomNavigationBar: MainBottomNavButton(
         label: "Continue",
-        onPressed: () {},
+        onPressed: () {
+          context.go(AppRoutes.ticketDetail, extra: booking);
+        },
       ),
     );
   }
@@ -82,7 +88,13 @@ class _OrderInfoSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Expanded(child: Text("Seat", style: context.textTheme.bodyLarge)),
-            Expanded(child: Text(seats, style: context.textTheme.titleMedium, textAlign: TextAlign.end)),
+            Expanded(
+              child: Text(
+                seats,
+                style: context.textTheme.titleMedium,
+                textAlign: TextAlign.end,
+              ),
+            ),
           ],
         ),
       ],
@@ -150,4 +162,3 @@ class _TotalRow extends StatelessWidget {
     );
   }
 }
-

@@ -10,10 +10,12 @@ class TicketCard extends StatelessWidget {
   const TicketCard({
     super.key,
     required this.movie,
+    required this.cinemaName,
     required this.dateTimeDisplay,
   });
 
   final MovieDataModel movie;
+  final String cinemaName;
   final String dateTimeDisplay;
 
   @override
@@ -61,7 +63,7 @@ class TicketCard extends StatelessWidget {
                         height: 16,
                         width: 16,
                       ),
-                      text: "Vincom Ocean Park CGV",
+                      text: cinemaName,
                     ),
                     Gap.h8,
                     _InfoRow(
