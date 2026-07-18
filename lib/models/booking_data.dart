@@ -1,29 +1,43 @@
+import 'package:movie_booking_ticket/models/cinema.dart';
 import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 
 class BookingData {
   final MovieDataModel movie;
+  final Cinema cinema;
   final Set<String> seats;
   final double totalPrice;
-  final DateTime date;
-  final String time;
-  final String orderId;
+  final DateTime? date;
+  final String? time;
+  final String? orderId;
 
   const BookingData({
     required this.movie,
-    required this.seats,
-    required this.totalPrice,
-    required this.date,
-    required this.time,
-    required this.orderId,
+    required this.cinema,
+    this.seats = const {},
+    this.totalPrice = 0,
+    this.date,
+    this.time,
+    this.orderId,
   });
+
+  BookingData copyWith({
+    Set<String>? seats,
+    double? totalPrice,
+    DateTime? date,
+    String? time,
+    String? orderId,
+  }) {
+    return BookingData(
+      movie: movie,
+      cinema: cinema,
+      seats: seats ?? this.seats,
+      totalPrice: totalPrice ?? this.totalPrice,
+      date: date ?? this.date,
+      time: time ?? this.time,
+      orderId: orderId ?? this.orderId,
+    );
+  }
 
   List<String> get seatLabels => seats.toList()..sort();
   String get seatDisplay => (seats.toList()..sort()).join(', ');
-  String get dateTimeDisplay {
-    final months = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-    ];
-    return "$time • ${date.day.toString().padLeft(2, '0')}.${months[date.month - 1]}.${date.year}";
-  }
 }
