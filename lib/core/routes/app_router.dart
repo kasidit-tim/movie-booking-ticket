@@ -7,9 +7,10 @@ import 'package:movie_booking_ticket/screens/main/movie/bloc/movie_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/views/main_screen.dart';
 import 'package:movie_booking_ticket/screens/main/movie/views/movie_screen.dart';
 import 'package:movie_booking_ticket/screens/main/profile/views/profile_screen.dart';
+import 'package:movie_booking_ticket/screens/movie_detail/bloc/movie_detail_bloc.dart';
+import 'package:movie_booking_ticket/screens/movie_detail/views/movie_detail_screen.dart';
 import 'package:movie_booking_ticket/screens/payment/views/payment_views.dart';
 import 'package:movie_booking_ticket/models/booking_data.dart';
-import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 import 'package:movie_booking_ticket/screens/seat_selection/bloc/seat_selection_bloc.dart';
 import 'package:movie_booking_ticket/screens/seat_selection/views/seat_selection_screen.dart';
 import 'package:movie_booking_ticket/screens/splash/bloc/splash_bloc.dart';
@@ -93,28 +94,37 @@ class AppRouter {
         ],
       ),
       GoRoute(
-        path: '${AppRoutes.ticketDetail}/:id',
+        path: '${AppRoutes.movieDetail}/:id',
         builder: (ctx, state) {
-          // final id = int.parse(state.pathParameters['id']!);
-          return TicketDetailScreen();
+          final id = int.parse(state.pathParameters['id']!);
+          return BlocProvider(
+            create: (_) => MovieDetailBloc()..add(LoadMovieDetailEvent(id: id)),
+            child: MovieDetailScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.selectSeat,
+        builder: (ctx, state) {
+          final booking = state.extra as BookingData;
+          return BlocProvider(
+            create: (_) => SeatSelectionBloc(),
+            child: SeatSelectionScreen(booking: booking),
+          );
         },
       ),
       GoRoute(
         path: AppRoutes.payment,
         builder: (ctx, state) {
           final booking = state.extra as BookingData;
-          print(">>>>>>>>>booking ${booking}");
           return PaymentScreen(booking: booking);
         },
       ),
       GoRoute(
-        path: AppRoutes.selectSeat,
+        path: AppRoutes.ticketDetail,
         builder: (ctx, state) {
-          final movie = state.extra as MovieDataModel;
-          return BlocProvider(
-            create: (_) => SeatSelectionBloc(),
-            child: SeatSelectionScreen(movie: movie),
-          );
+          final booking = state.extra as BookingData;
+          return TicketDetailScreen(booking: booking);
         },
       ),
     ],
