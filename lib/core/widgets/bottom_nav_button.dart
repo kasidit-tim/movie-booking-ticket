@@ -26,6 +26,7 @@ class MainBottomNavButton extends StatelessWidget {
             child:
                 customWidget ??
                 SizedBox(
+                  width: double.infinity,
                   height: 56,
                   child: ElevatedButton(
                     onPressed: onPressed,
