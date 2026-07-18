@@ -4,12 +4,13 @@ import 'package:movie_booking_ticket/core/theme/app_colors.dart';
 import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
-import 'package:movie_booking_ticket/screens/ticket_detail/models/ticket_detail_data.dart';
+import 'package:movie_booking_ticket/models/booking_data.dart';
+import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 
 class TicketInfo extends StatelessWidget {
-  const TicketInfo({super.key, required this.ticket});
+  const TicketInfo({super.key, required this.booking});
 
-  final TicketDetailData ticket;
+  final BookingData booking;
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +18,22 @@ class TicketInfo extends StatelessWidget {
 
     return Column(
       children: [
-        _MovieHeader(ticket: ticket, textTheme: textTheme),
+        _MovieHeader(movie: booking.movie, textTheme: textTheme),
         const SizedBox(height: 35),
-        _ShowtimeRow(ticket: ticket, textTheme: textTheme),
+        _ShowtimeRow(booking: booking, textTheme: textTheme),
         Gap.h32,
         const Divider(height: 0, thickness: 0.5),
         Gap.h16,
-        _VenueDetails(ticket: ticket, textTheme: textTheme),
+        _VenueDetails(booking: booking, textTheme: textTheme),
       ],
     );
   }
 }
 
 class _MovieHeader extends StatelessWidget {
-  const _MovieHeader({required this.ticket, required this.textTheme});
+  const _MovieHeader({required this.movie, required this.textTheme});
 
-  final TicketDetailData ticket;
+  final MovieDataModel movie;
   final TextTheme textTheme;
 
   static const _posterHeight = 177.0;
@@ -47,7 +48,7 @@ class _MovieHeader extends StatelessWidget {
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
           child: CachedNetworkImage(
-            imageUrl: ticket.posterUrl,
+            imageUrl: movie.getPosterImgW500,
             fit: BoxFit.cover,
             height: _posterHeight,
             width: _posterWidth,
@@ -60,7 +61,7 @@ class _MovieHeader extends StatelessWidget {
             children: [
               Gap.h20,
               Text(
-                ticket.movieTitle,
+                movie.title ?? '',
                 style: textTheme.titleLarge?.copyWith(color: AppColors.black),
               ),
               Gap.h8,
@@ -70,7 +71,7 @@ class _MovieHeader extends StatelessWidget {
                   width: 20,
                   color: AppColors.black,
                 ),
-                text: ticket.duration,
+                text: movie.shortRunTime,
                 textTheme: textTheme,
               ),
               Gap.h4,
@@ -80,7 +81,7 @@ class _MovieHeader extends StatelessWidget {
                   width: 20,
                   color: AppColors.black,
                 ),
-                text: ticket.genres,
+                text: movie.getGenres,
                 textTheme: textTheme,
               ),
             ],
@@ -105,12 +106,15 @@ class _InfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         icon,
         Gap.w8,
-        Text(
-          text,
-          style: textTheme.bodyMedium?.copyWith(color: AppColors.black),
+        Expanded(
+          child: Text(
+            text,
+            style: textTheme.bodyMedium?.copyWith(color: AppColors.black),
+          ),
         ),
       ],
     );
@@ -118,27 +122,35 @@ class _InfoRow extends StatelessWidget {
 }
 
 class _ShowtimeRow extends StatelessWidget {
-  const _ShowtimeRow({required this.ticket, required this.textTheme});
+  const _ShowtimeRow({required this.booking, required this.textTheme});
 
-  final TicketDetailData ticket;
+  final BookingData booking;
   final TextTheme textTheme;
 
   @override
   Widget build(BuildContext context) {
+    final showTime = '${booking.time}';
+    final date = booking.date!;
+    final showDate =
+        '${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year}';
+
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _IconDetailTile(
-          icon: Assets.images.ticketDetail.calendar.svg(),
-          line1: ticket.showTime,
-          line2: ticket.showDate,
-          textTheme: textTheme,
+        Expanded(
+          child: _IconDetailTile(
+            icon: Assets.images.ticketDetail.calendar.svg(),
+            line1: showTime,
+            line2: showDate,
+            textTheme: textTheme,
+          ),
         ),
-        _IconDetailTile(
-          icon: Assets.images.ticketDetail.seatCinema.svg(),
-          line1: "Section ${ticket.section}",
-          line2: "Seat ${ticket.seats.join(',')}",
-          textTheme: textTheme,
+        Expanded(
+          child: _IconDetailTile(
+            icon: Assets.images.ticketDetail.seatCinema.svg(),
+            line1: 'Section 4',
+            line2: 'Seat ${booking.seatLabels.join(',')}',
+            textTheme: textTheme,
+          ),
         ),
       ],
     );
@@ -164,18 +176,20 @@ class _IconDetailTile extends StatelessWidget {
       spacing: 8,
       children: [
         icon,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              line1,
-              style: textTheme.titleMedium?.copyWith(color: AppColors.black),
-            ),
-            Text(
-              line2,
-              style: textTheme.titleMedium?.copyWith(color: AppColors.black),
-            ),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                line1,
+                style: textTheme.titleMedium?.copyWith(color: AppColors.black),
+              ),
+              Text(
+                line2,
+                style: textTheme.titleMedium?.copyWith(color: AppColors.black),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -183,9 +197,9 @@ class _IconDetailTile extends StatelessWidget {
 }
 
 class _VenueDetails extends StatelessWidget {
-  const _VenueDetails({required this.ticket, required this.textTheme});
+  const _VenueDetails({required this.booking, required this.textTheme});
 
-  final TicketDetailData ticket;
+  final BookingData booking;
   final TextTheme textTheme;
 
   @override
@@ -197,7 +211,7 @@ class _VenueDetails extends StatelessWidget {
           children: [
             Assets.images.ticketDetail.moneySend.svg(),
             Text(
-              "${ticket.price.toStringAsFixed(2)} THB",
+              '${booking.totalPrice.toStringAsFixed(2)} THB',
               style: textTheme.titleMedium?.copyWith(color: AppColors.black),
             ),
           ],
@@ -213,14 +227,14 @@ class _VenueDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    ticket.cinemaName,
+                    booking.cinema.name,
                     style: textTheme.titleMedium?.copyWith(
                       color: AppColors.black,
                     ),
                   ),
                   Gap.h4,
                   Text(
-                    ticket.cinemaAddress,
+                    booking.cinema.address,
                     style: textTheme.bodyMedium?.copyWith(
                       color: AppColors.black,
                     ),
@@ -238,7 +252,7 @@ class _VenueDetails extends StatelessWidget {
             Assets.images.ticketDetail.note.svg(),
             Expanded(
               child: Text(
-                ticket.note,
+                'Show this QR code to the ticket counter to receive your ticket',
                 style: textTheme.bodyMedium?.copyWith(color: AppColors.black),
               ),
             ),
