@@ -43,6 +43,7 @@ flutter_gen:
   assets:
     exclude:
       - .env
+      - assets/fonts/
   output: lib/gen/ 
   line_length: 80
 
