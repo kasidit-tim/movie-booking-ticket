@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movie_booking_ticket/core/di/injection_container.dart';
 import 'package:movie_booking_ticket/screens/main/home/bloc/home_bloc.dart';
+import 'package:movie_booking_ticket/screens/main/home/data/home_repository.dart';
+import 'package:movie_booking_ticket/screens/main/movie/data/movie_repository.dart';
+import 'package:movie_booking_ticket/screens/movie_detail/data/movie_detail_repository.dart';
 import 'package:movie_booking_ticket/screens/main/home/views/home_screen.dart';
 import 'package:movie_booking_ticket/screens/main/movie/bloc/movie_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/views/main_screen.dart';
@@ -48,7 +52,7 @@ class AppRouter {
               GoRoute(
                 path: AppRoutes.homeTab,
                 builder: (context, state) => BlocProvider(
-                  create: (_) => HomeBloc()
+                  create: (_) => HomeBloc(getIt<HomeRepository>())
                     ..add(LoadNowPlayingMovie())
                     ..add(LoadComingSoonMovie()),
                   child: HomeScreen(),
@@ -74,7 +78,7 @@ class AppRouter {
                 path: AppRoutes.movieTab,
                 builder: (context, state) => BlocProvider(
                   create: (_) =>
-                      MovieBloc()
+                      MovieBloc(getIt<MovieRepository>())
                         ..add(LoadMoviesEvent(tab: MovieTab.nowPlaying)),
                   child: MovieScreen(),
                 ),
@@ -98,7 +102,9 @@ class AppRouter {
         builder: (ctx, state) {
           final id = int.parse(state.pathParameters['id']!);
           return BlocProvider(
-            create: (_) => MovieDetailBloc()..add(LoadMovieDetailEvent(id: id)),
+            create: (_) =>
+                MovieDetailBloc(getIt<MovieDetailRepository>())
+                  ..add(LoadMovieDetailEvent(id: id)),
             child: MovieDetailScreen(),
           );
         },

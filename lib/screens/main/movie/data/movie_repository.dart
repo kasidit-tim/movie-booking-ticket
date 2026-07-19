@@ -4,7 +4,7 @@ import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 import 'package:movie_booking_ticket/models/movie/movie_paginate_data.dart';
 
 class MovieRepository {
-  MovieRepository({DioClient? client}) : _client = client ?? DioClient();
+  MovieRepository(this._client);
 
   final DioClient _client;
 

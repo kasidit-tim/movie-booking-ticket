@@ -5,7 +5,7 @@ import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 import 'package:movie_booking_ticket/models/movie/movie_video.dart';
 
 class MovieDetailRepository {
-  MovieDetailRepository({DioClient? client}) : _client = client ?? DioClient();
+  MovieDetailRepository(this._client);
 
   final DioClient _client;
 

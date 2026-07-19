@@ -3,7 +3,7 @@ import 'package:movie_booking_ticket/core/network/dio_client.dart';
 import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 
 class HomeRepository {
-  HomeRepository({DioClient? client}) : _client = client ?? DioClient();
+  HomeRepository(this._client);
 
   final DioClient _client;
 

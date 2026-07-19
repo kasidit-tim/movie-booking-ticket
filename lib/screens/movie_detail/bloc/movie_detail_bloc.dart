@@ -13,9 +13,8 @@ part 'movie_detail_event.dart';
 part 'movie_detail_state.dart';
 
 class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
-  MovieDetailBloc({MovieDetailRepository? repository})
-    : _repository = repository ?? MovieDetailRepository(),
-      super(const MovieDetailState(allCinemas: Cinema.mockCinemas)) {
+  MovieDetailBloc(this._repository)
+    : super(const MovieDetailState(allCinemas: Cinema.mockCinemas)) {
     on<LoadMovieDetailEvent>(_onLoadMovieDetail);
     on<ExtrasLoadedEvent>(_onExtrasLoaded);
     on<SelectCinemaEvent>(_onSelectCinema);

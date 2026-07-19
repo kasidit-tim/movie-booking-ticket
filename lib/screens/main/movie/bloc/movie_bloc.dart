@@ -10,9 +10,8 @@ part 'movie_event.dart';
 part 'movie_state.dart';
 
 class MovieBloc extends Bloc<MovieEvent, MovieState> {
-  MovieBloc({MovieRepository? repository})
-    : _repository = repository ?? MovieRepository(),
-      super(
+  MovieBloc(this._repository)
+    : super(
         MovieState(
           nowPlaying: MovieSectionState.empty(),
           comingSoon: MovieSectionState.empty(),

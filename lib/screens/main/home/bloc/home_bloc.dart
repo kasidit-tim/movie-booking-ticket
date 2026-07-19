@@ -8,9 +8,7 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc({HomeRepository? repository})
-    : _repository = repository ?? HomeRepository(),
-      super(HomeState()) {
+  HomeBloc(this._repository) : super(HomeState()) {
     on<LoadNowPlayingMovie>(_onLoadNowPlayingMovie);
     on<LoadComingSoonMovie>(_onLoadComingSoonMovie);
   }
