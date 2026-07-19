@@ -4,7 +4,7 @@ sealed class MovieDetailEvent extends Equatable {
   const MovieDetailEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadMovieDetailEvent extends MovieDetailEvent {
@@ -23,4 +23,13 @@ class SelectCinemaEvent extends MovieDetailEvent {
 
   @override
   List<Object> get props => [newCinema];
+}
+
+class ExtrasLoadedEvent extends MovieDetailEvent {
+  final int id;
+
+  const ExtrasLoadedEvent({required this.id});
+
+  @override
+  List<Object?> get props => [id];
 }
