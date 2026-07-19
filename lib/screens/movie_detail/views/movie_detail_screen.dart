@@ -12,7 +12,9 @@ import 'package:movie_booking_ticket/screens/movie_detail/views/widgets/movie_in
 import 'package:skeletonizer/skeletonizer.dart';
 
 class MovieDetailScreen extends StatelessWidget {
-  const MovieDetailScreen({super.key});
+  const MovieDetailScreen({super.key, this.isComingSoon = false});
+
+  final bool isComingSoon;
 
   @override
   Widget build(BuildContext context) {
@@ -39,26 +41,33 @@ class MovieDetailScreen extends StatelessWidget {
               SliverToBoxAdapter(
                 child: Skeletonizer(
                   enabled: state.isLoading,
-                  child: MovieDetailContent(movie: movie),
+                  child: MovieDetailContent(
+                    movie: movie,
+                    isComingSoon: isComingSoon,
+                  ),
                 ),
               ),
             ],
           ),
-          bottomNavigationBar: Skeletonizer(
-            enabled: state.isLoading,
-            child: MainBottomNavButton(
-              label: 'Continue',
-              onPressed: () {
-                final currentState = context.read<MovieDetailBloc>().state;
+          bottomNavigationBar: isComingSoon
+              ? const SizedBox.shrink()
+              : Skeletonizer(
+                  enabled: state.isLoading,
+                  child: MainBottomNavButton(
+                    label: 'Continue',
+                    onPressed: () {
+                      final currentState = context
+                          .read<MovieDetailBloc>()
+                          .state;
 
-                final booking = BookingData(
-                  movie: currentState.detail!,
-                  cinema: currentState.selectedCinema!,
-                );
-                context.push(AppRoutes.selectSeat, extra: booking);
-              },
-            ),
-          ),
+                      final booking = BookingData(
+                        movie: currentState.detail!,
+                        cinema: currentState.selectedCinema!,
+                      );
+                      context.push(AppRoutes.selectSeat, extra: booking);
+                    },
+                  ),
+                ),
         );
       },
     );

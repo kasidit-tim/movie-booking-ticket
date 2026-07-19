@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:movie_booking_ticket/core/routes/app_routes.dart';
 import 'package:movie_booking_ticket/core/theme/app_colors.dart';
 import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
 import 'package:movie_booking_ticket/models/movie/movie_data.dart';
+import 'package:movie_booking_ticket/models/movie_detail_args.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class MovieCard extends StatelessWidget {
@@ -18,7 +21,10 @@ class MovieCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        debugPrint("=====> movie card");
+        context.push(
+          '${AppRoutes.movieDetail}/${data.id}',
+          extra: MovieDetailArgs(isComingSoon: isComingSoon),
+        );
       },
       child: Container(
         color: Colors.transparent,

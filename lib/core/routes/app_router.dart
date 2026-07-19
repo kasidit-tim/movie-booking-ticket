@@ -15,6 +15,7 @@ import 'package:movie_booking_ticket/screens/movie_detail/bloc/movie_detail_bloc
 import 'package:movie_booking_ticket/screens/movie_detail/views/movie_detail_screen.dart';
 import 'package:movie_booking_ticket/screens/payment/views/payment_views.dart';
 import 'package:movie_booking_ticket/models/booking_data.dart';
+import 'package:movie_booking_ticket/models/movie_detail_args.dart';
 import 'package:movie_booking_ticket/screens/seat_selection/bloc/seat_selection_bloc.dart';
 import 'package:movie_booking_ticket/screens/seat_selection/views/seat_selection_screen.dart';
 import 'package:movie_booking_ticket/screens/splash/bloc/splash_bloc.dart';
@@ -101,11 +102,12 @@ class AppRouter {
         path: '${AppRoutes.movieDetail}/:id',
         builder: (ctx, state) {
           final id = int.parse(state.pathParameters['id']!);
+          final args = state.extra as MovieDetailArgs;
           return BlocProvider(
             create: (_) =>
                 MovieDetailBloc(getIt<MovieDetailRepository>())
                   ..add(LoadMovieDetailEvent(id: id)),
-            child: MovieDetailScreen(),
+            child: MovieDetailScreen(isComingSoon: args.isComingSoon),
           );
         },
       ),

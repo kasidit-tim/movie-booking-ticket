@@ -9,9 +9,14 @@ import 'package:movie_booking_ticket/screens/movie_detail/views/widgets/movie_de
 import 'package:readmore/readmore.dart';
 
 class MovieDetailContent extends StatelessWidget {
-  const MovieDetailContent({super.key, required this.movie});
+  const MovieDetailContent({
+    super.key,
+    required this.movie,
+    required this.isComingSoon,
+  });
 
   final MovieDataModel? movie;
+  final bool isComingSoon;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +55,7 @@ class MovieDetailContent extends StatelessWidget {
         Gap.h32,
         const CastSection(),
         Gap.h32,
-        const _CinemaSection(),
+        isComingSoon ? SizedBox(height: 200) : const _CinemaSection(),
       ],
     );
   }
