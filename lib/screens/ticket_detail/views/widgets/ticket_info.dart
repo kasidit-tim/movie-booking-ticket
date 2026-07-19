@@ -71,7 +71,7 @@ class _MovieHeader extends StatelessWidget {
                   width: 20,
                   color: AppColors.black,
                 ),
-                text: movie.shortRunTime,
+                text: movie.runTime,
                 textTheme: textTheme,
               ),
               Gap.h4,

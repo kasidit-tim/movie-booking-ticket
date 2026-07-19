@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_booking_ticket/core/theme/app_colors.dart';
+import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
 import 'package:movie_booking_ticket/screens/seat_selection/bloc/seat_selection_bloc.dart';
 import 'package:movie_booking_ticket/screens/seat_selection/views/widgets/seat_map_section.dart';
 
@@ -43,7 +44,16 @@ class SeatWidget extends StatelessWidget {
           },
           borderRadius: BorderRadius.circular(6),
         ),
-        child: Text(seatNo),
+        child: Text(
+          seatNo,
+          style: context.textTheme.bodySmall?.copyWith(
+            color: switch (effectiveStatus) {
+              SeatStatus.available => AppColors.white,
+              SeatStatus.selected => AppColors.black,
+              SeatStatus.reserved => AppColors.primary,
+            },
+          ),
+        ),
       ),
     );
   }
