@@ -5,6 +5,7 @@ import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
 import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 import 'package:movie_booking_ticket/screens/movie_detail/bloc/movie_detail_bloc.dart';
+import 'package:movie_booking_ticket/screens/movie_detail/views/widgets/movie_detail_people_section.dart';
 import 'package:readmore/readmore.dart';
 
 class MovieDetailContent extends StatelessWidget {
@@ -28,13 +29,13 @@ class MovieDetailContent extends StatelessWidget {
               ),
               Gap.h16,
               _LabelValueRow(
-                label: 'Language',
-                value: movie?.originalLanguage?.toUpperCase() ?? '',
+                label: 'Censorship',
+                value: movie?.thaiCertification ?? '-',
               ),
               Gap.h16,
               _LabelValueRow(
-                label: 'Release',
-                value: movie?.getReleaseDate ?? '',
+                label: 'Language',
+                value: movie?.originalLanguage?.toUpperCase() ?? '',
               ),
             ],
           ),
@@ -44,6 +45,10 @@ class MovieDetailContent extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: _StorylineSection(overview: movie?.overview ?? ''),
         ),
+        Gap.h32,
+        const DirectorSection(),
+        Gap.h32,
+        const CastSection(),
         Gap.h32,
         const _CinemaSection(),
       ],

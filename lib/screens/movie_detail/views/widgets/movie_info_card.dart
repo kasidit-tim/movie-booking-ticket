@@ -7,17 +7,16 @@ import 'package:movie_booking_ticket/core/widgets/tap_wrapper.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
 import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 import 'package:movie_booking_ticket/screens/movie_detail/bloc/movie_detail_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MovieInfoCard extends StatelessWidget {
-  const MovieInfoCard({super.key});
+  const MovieInfoCard({super.key, required this.movie});
+
+  final MovieDataModel? movie;
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<MovieDetailBloc>().state;
-    final movie = state.detail;
-    final trailerUrl = state.trailerUrl;
-
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(20),
@@ -38,7 +37,7 @@ class MovieInfoCard extends StatelessWidget {
           const SizedBox(height: 40),
           _buildRatingRow(context, movie),
           Gap.h12,
-          _buildTrailerRow(context, trailerUrl),
+          _buildTrailerRow(context),
         ],
       ),
     );
@@ -60,7 +59,7 @@ class MovieInfoCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTrailerRow(BuildContext context, String? trailerUrl) {
+  Widget _buildTrailerRow(BuildContext context) {
     return Row(
       children: [
         Expanded(
@@ -77,7 +76,20 @@ class MovieInfoCard extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 28),
-        if (trailerUrl != null) _TrailerButton(url: trailerUrl),
+        BlocBuilder<MovieDetailBloc, MovieDetailState>(
+          buildWhen: (prev, curr) =>
+              prev.isExtrasLoading != curr.isExtrasLoading,
+          builder: (context, state) {
+            if (!state.isExtrasLoading && state.trailerUrl.isEmpty) {
+              return const SizedBox.shrink();
+            }
+
+            return Skeletonizer(
+              enabled: state.isExtrasLoading,
+              child: _TrailerButton(url: state.trailerUrl),
+            );
+          },
+        ),
       ],
     );
   }
@@ -93,18 +105,21 @@ class _TrailerButton extends StatelessWidget {
     return TapWrapper(
       onTap: () => launchUrl(Uri.parse(url)),
       borderRadius: BorderRadius.circular(4),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          border: Border.all(color: AppColors.grey, width: 1),
-        ),
-        child: Row(
-          spacing: 4,
-          children: [
-            const Icon(Icons.play_arrow),
-            Text('Watch trailer', style: context.textTheme.titleSmall),
-          ],
+      child: Skeleton.unite(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: AppColors.grey, width: 1),
+          ),
+          child: Row(
+            spacing: 4,
+            children: [
+              const Icon(Icons.play_arrow),
+              Text('Watch trailer', style: context.textTheme.titleSmall),
+            ],
+          ),
         ),
       ),
     );

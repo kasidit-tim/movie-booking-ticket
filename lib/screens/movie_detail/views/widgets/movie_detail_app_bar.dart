@@ -1,19 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:movie_booking_ticket/core/theme/app_colors.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MovieDetailAppBar extends StatelessWidget {
   const MovieDetailAppBar({
     super.key,
     this.posterUrl,
-    required this.onBackPressed,
     required this.infoCard,
+    required this.isLoading,
   });
 
   final String? posterUrl;
-  final VoidCallback onBackPressed;
   final Widget infoCard;
+  final bool isLoading;
 
   static const _leadingPadding = 16.0;
   static const _backButtonSize = 45.0;
@@ -32,7 +34,9 @@ class MovieDetailAppBar extends StatelessWidget {
         padding: const EdgeInsets.only(left: _leadingPadding),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
-          onTap: onBackPressed,
+          onTap: () {
+            context.pop();
+          },
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
@@ -47,29 +51,38 @@ class MovieDetailAppBar extends StatelessWidget {
       toolbarHeight: kToolbarHeight,
       expandedHeight: _expandedHeight,
       pinned: true,
-      flexibleSpace: FlexibleSpaceBar(
-        background: Container(
-          color: AppColors.background,
-          child: Stack(
-            children: [
-              CachedNetworkImage(
-                fit: BoxFit.cover,
-                imageUrl: posterUrl ?? '',
-                height: _posterHeight,
-                width: double.infinity,
-                errorWidget: (_, _, _) => Container(
-                  height: _posterHeight,
-                  color: AppColors.background,
-                  child: const Icon(Icons.movie, size: 48),
+      flexibleSpace: Skeletonizer(
+        enabled: isLoading,
+        child: FlexibleSpaceBar(
+          background: Container(
+            color: AppColors.background,
+            child: Stack(
+              children: [
+                isLoading
+                    ? Container(
+                        width: double.infinity,
+                        height: _posterHeight,
+                        color: AppColors.background,
+                      )
+                    : CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        imageUrl: posterUrl ?? '',
+                        height: _posterHeight,
+                        width: double.infinity,
+                        errorWidget: (_, _, _) => Container(
+                          width: double.infinity,
+                          height: _posterHeight,
+                          color: AppColors.background,
+                        ),
+                      ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: _infoCardTopOffset,
+                  child: Center(child: Skeleton.unite(child: infoCard)),
                 ),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                top: _infoCardTopOffset,
-                child: Center(child: infoCard),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
