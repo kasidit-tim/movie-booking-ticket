@@ -2,6 +2,7 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:movie_booking_ticket/core/constants/app_constants.dart';
+import 'package:movie_booking_ticket/models/movie/certification_data.dart';
 
 part 'movie_data.g.dart';
 
@@ -35,6 +36,8 @@ class MovieDataModel extends Equatable {
   final bool? video;
   final double? voteAverage;
   final int? voteCount;
+  @JsonKey(name: 'release_dates')
+  final CertificationData? certifications;
 
   const MovieDataModel({
     this.adult,
@@ -64,6 +67,7 @@ class MovieDataModel extends Equatable {
     this.video,
     this.voteAverage,
     this.voteCount,
+    this.certifications,
   });
 
   factory MovieDataModel.fromJson(Map<String, dynamic> json) =>
@@ -82,8 +86,23 @@ class MovieDataModel extends Equatable {
   String get shortRunTime =>
       runtime != null ? '${runtime! ~/ 60}h${runtime! % 60}m' : '';
 
-  String get runTime =>
-      runtime != null ? '${runtime! ~/ 60} hour ${runtime! % 60} minutes' : '';
+  String get runTime {
+    if (runtime == null) return '';
+
+    final hours = runtime! ~/ 60;
+    final minutes = runtime! % 60;
+
+    if (hours == 0) {
+      return '$minutes minute${minutes == 1 ? '' : 's'}';
+    }
+
+    if (minutes == 0) {
+      return '$hours hour${hours == 1 ? '' : 's'}';
+    }
+
+    return '$hours hour${hours == 1 ? '' : 's'} '
+        '$minutes minute${minutes == 1 ? '' : 's'}';
+  }
 
   String get getGenres => genres?.map((g) => g.name).join(', ') ?? '';
 
@@ -96,8 +115,14 @@ class MovieDataModel extends Equatable {
     return '${releaseDate!.day.toString().padLeft(2, '0')}.${releaseDate!.month.toString().padLeft(2, '0')}.${releaseDate!.year}';
   }
 
+  String get thaiCertification {
+    final cert = certifications?.forCountry('TH') ?? '';
+    if (cert.isEmpty) return '';
+    return RegExp(r'^\d+$').hasMatch(cert) ? '$cert+' : cert;
+  }
+
   @override
-  List<Object?> get props => [id, runtime, genres];
+  List<Object?> get props => [id, runtime, genres, certifications];
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
