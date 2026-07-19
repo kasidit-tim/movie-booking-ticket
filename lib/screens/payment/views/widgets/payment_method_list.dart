@@ -4,9 +4,10 @@ import 'package:movie_booking_ticket/core/theme/app_colors.dart';
 import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
+import 'package:movie_booking_ticket/screens/payment/data/payment_method.dart';
 
 class PaymentMethodList extends StatefulWidget {
-  const PaymentMethodList({super.key, this.initialIndex = 2});
+  const PaymentMethodList({super.key, this.initialIndex = 0});
 
   final int initialIndex;
 
@@ -15,8 +16,6 @@ class PaymentMethodList extends StatefulWidget {
 }
 
 class _PaymentMethodListState extends State<PaymentMethodList> {
-  static const _methodCount = 5;
-
   late int _selectedIndex;
 
   @override
@@ -30,12 +29,14 @@ class _PaymentMethodListState extends State<PaymentMethodList> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Payment Method", style: context.textTheme.headlineSmall),
+        Text('Payment Method', style: context.textTheme.headlineSmall),
         Gap.h24,
-        ...List.generate(_methodCount, (i) {
-          return PaymentMethodCard(
+        ...List.generate(PaymentMethod.mockMethods.length, (i) {
+          final method = PaymentMethod.mockMethods[i];
+          return _PaymentMethodCard(
+            method: method,
             isSelected: i == _selectedIndex,
-            isLast: i == _methodCount - 1,
+            isLast: i == PaymentMethod.mockMethods.length - 1,
             onTap: () => setState(() => _selectedIndex = i),
           );
         }),
@@ -44,20 +45,18 @@ class _PaymentMethodListState extends State<PaymentMethodList> {
   }
 }
 
-class PaymentMethodCard extends StatelessWidget {
-  const PaymentMethodCard({
-    super.key,
+class _PaymentMethodCard extends StatelessWidget {
+  const _PaymentMethodCard({
+    required this.method,
     required this.isSelected,
     required this.isLast,
     this.onTap,
   });
 
+  final PaymentMethod method;
   final bool isSelected;
   final bool isLast;
   final VoidCallback? onTap;
-
-  static const _imageUrl =
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS74rD-okxmYf-TqMpklB7u_BCH1qrYRlIbw03v5AkmReYVgojZvgTWtjx&s=10";
 
   @override
   Widget build(BuildContext context) {
@@ -80,11 +79,11 @@ class PaymentMethodCard extends StatelessWidget {
                 height: 48,
                 width: 86,
                 fit: BoxFit.cover,
-                imageUrl: _imageUrl,
+                imageUrl: method.iconUrl,
               ),
             ),
             Gap.w16,
-            Text("Shopee Pay", style: context.textTheme.titleMedium),
+            Text(method.name, style: context.textTheme.titleMedium),
             const Spacer(),
             Assets.images.general.arrowRight.svg(),
           ],
