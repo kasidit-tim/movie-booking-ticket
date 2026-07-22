@@ -1,5 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'cinema.g.dart';
+
+@JsonSerializable()
 class Cinema extends Equatable {
   const Cinema({
     required this.id,
@@ -12,6 +16,11 @@ class Cinema extends Equatable {
   final String name;
   final String distance;
   final String address;
+
+  factory Cinema.fromJson(Map<String, dynamic> json) =>
+      _$CinemaFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CinemaToJson(this);
 
   static const mockCinemas = [
     Cinema(

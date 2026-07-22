@@ -1,6 +1,10 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:movie_booking_ticket/models/cinema.dart';
 import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 
+part 'booking_data.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class BookingData {
   final MovieDataModel movie;
   final Cinema cinema;
@@ -19,6 +23,11 @@ class BookingData {
     this.time,
     this.orderId,
   });
+
+  factory BookingData.fromJson(Map<String, dynamic> json) =>
+      _$BookingDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BookingDataToJson(this);
 
   BookingData copyWith({
     Set<String>? seats,
