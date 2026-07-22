@@ -15,13 +15,13 @@ class TicketDetailScreen extends StatelessWidget {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        context.go(AppRoutes.homeTab);
+        context.go(AppRoutes.main);
       },
       child: Scaffold(
         appBar: MainAppBar(
           title: 'My ticket',
           onBack: () {
-            context.go(AppRoutes.homeTab);
+            context.go(AppRoutes.main);
           },
         ),
         body: SingleChildScrollView(

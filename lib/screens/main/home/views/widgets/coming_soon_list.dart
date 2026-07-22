@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_booking_ticket/core/widgets/movie_card.dart';
 import 'package:movie_booking_ticket/models/movie/movie_data.dart';
+import 'package:movie_booking_ticket/screens/main/bloc/main_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/home/bloc/home_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/home/views/widgets/home_section.dart';
+import 'package:movie_booking_ticket/screens/main/movie/bloc/movie_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ComingSoonList extends StatelessWidget {
@@ -39,6 +41,13 @@ class ComingSoonList extends StatelessWidget {
           enabled: isLoading,
           child: HomeSection(
             title: "Coming soon",
+            onSeeAll: () {
+              final mainBloc = context.read<MainBloc>();
+              mainBloc.add(NavigateToTabEvent(page: PageTab.movie));
+
+              final movieBloc = context.read<MovieBloc>();
+              movieBloc.add(ChangeTabEvent(tab: MovieTab.comingSoon));
+            },
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(

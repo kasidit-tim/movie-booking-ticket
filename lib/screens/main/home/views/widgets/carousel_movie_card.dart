@@ -11,8 +11,10 @@ import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
 import 'package:movie_booking_ticket/models/movie/movie_data.dart';
+import 'package:movie_booking_ticket/screens/main/bloc/main_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/home/bloc/home_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/home/views/widgets/home_section.dart';
+import 'package:movie_booking_ticket/screens/main/movie/bloc/movie_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class CarouselMovieCard extends StatefulWidget {
@@ -63,6 +65,13 @@ class _CarouselMovieCardState extends State<CarouselMovieCard> {
     final movieData = movieDataList[_currentPage];
     return HomeSection(
       title: "Now Playing",
+      onSeeAll: () {
+        final mainBloc = context.read<MainBloc>();
+        mainBloc.add(NavigateToTabEvent(page: PageTab.movie));
+
+        final movieBloc = context.read<MovieBloc>();
+        movieBloc.add(ChangeTabEvent(tab: MovieTab.nowPlaying));
+      },
       child: Column(
         children: [
           _buildCarousel(movieDataList),

@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_booking_ticket/core/di/injection_container.dart';
+import 'package:movie_booking_ticket/screens/main/bloc/main_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/home/bloc/home_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/home/data/home_repository.dart';
 import 'package:movie_booking_ticket/screens/main/movie/data/movie_repository.dart';
 import 'package:movie_booking_ticket/screens/movie_detail/data/movie_detail_repository.dart';
-import 'package:movie_booking_ticket/screens/main/home/views/home_screen.dart';
 import 'package:movie_booking_ticket/screens/main/movie/bloc/movie_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/views/main_screen.dart';
-import 'package:movie_booking_ticket/screens/main/movie/views/movie_screen.dart';
-import 'package:movie_booking_ticket/screens/main/profile/views/profile_screen.dart';
 import 'package:movie_booking_ticket/screens/movie_detail/bloc/movie_detail_bloc.dart';
 import 'package:movie_booking_ticket/screens/movie_detail/views/movie_detail_screen.dart';
 import 'package:movie_booking_ticket/screens/payment/views/payment_views.dart';
@@ -20,7 +18,6 @@ import 'package:movie_booking_ticket/screens/seat_selection/bloc/seat_selection_
 import 'package:movie_booking_ticket/screens/seat_selection/views/seat_selection_screen.dart';
 import 'package:movie_booking_ticket/screens/splash/bloc/splash_bloc.dart';
 import 'package:movie_booking_ticket/screens/splash/views/splash_screen.dart';
-import 'package:movie_booking_ticket/screens/main/ticket/views/ticket_screen.dart';
 import 'package:movie_booking_ticket/screens/ticket_detail/views/ticket_detail_screen.dart';
 import 'app_routes.dart';
 
@@ -42,61 +39,22 @@ class AppRouter {
           );
         },
       ),
-      StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) {
-          return MainScreen(navigationShell: navigationShell);
+      GoRoute(
+        path: AppRoutes.main,
+        builder: (ctx, state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (_) => MainBloc()),
+              BlocProvider(
+                create: (_) => HomeBloc(getIt<HomeRepository>())
+                  ..add(LoadNowPlayingMovie())
+                  ..add(LoadComingSoonMovie()),
+              ),
+              BlocProvider(create: (_) => MovieBloc(getIt<MovieRepository>())),
+            ],
+            child: MainScreen(),
+          );
         },
-        branches: [
-          /// Home
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: AppRoutes.homeTab,
-                builder: (context, state) => BlocProvider(
-                  create: (_) => HomeBloc(getIt<HomeRepository>())
-                    ..add(LoadNowPlayingMovie())
-                    ..add(LoadComingSoonMovie()),
-                  child: HomeScreen(),
-                ),
-              ),
-            ],
-          ),
-
-          /// Ticket
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: AppRoutes.ticketTab,
-                builder: (context, state) => const TicketScreen(),
-              ),
-            ],
-          ),
-
-          /// Movie
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: AppRoutes.movieTab,
-                builder: (context, state) => BlocProvider(
-                  create: (_) =>
-                      MovieBloc(getIt<MovieRepository>())
-                        ..add(LoadMoviesEvent(tab: MovieTab.nowPlaying)),
-                  child: MovieScreen(),
-                ),
-              ),
-            ],
-          ),
-
-          /// Profile
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: AppRoutes.profileTab,
-                builder: (context, state) => const ProfileScreen(),
-              ),
-            ],
-          ),
-        ],
       ),
       GoRoute(
         path: '${AppRoutes.movieDetail}/:id',

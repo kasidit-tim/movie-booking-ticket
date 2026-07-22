@@ -14,9 +14,19 @@ class MovieScreen extends StatefulWidget {
 }
 
 class _MovieScreenState extends State<MovieScreen> {
-  final _pageController = PageController();
+  late final PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    final bloc = context.read<MovieBloc>();
+    _pageController = PageController(initialPage: bloc.state.tab.index);
+    bloc.add(LoadMoviesEvent(tab: bloc.state.tab));
+  }
 
   void _onTabChanged(MovieTab tab) {
+    final bloc = context.read<MovieBloc>();
+    bloc.add(ChangeTabEvent(tab: tab));
     _pageController.animateToPage(
       tab == MovieTab.nowPlaying ? 0 : 1,
       duration: const Duration(milliseconds: 300),
@@ -40,13 +50,28 @@ class _MovieScreenState extends State<MovieScreen> {
             _buildTabBar(),
             Gap.h32,
             Expanded(
-              child: PageView(
-                physics: const NeverScrollableScrollPhysics(),
-                controller: _pageController,
-                children: [
-                  MovieListPage(tab: MovieTab.nowPlaying),
-                  MovieListPage(tab: MovieTab.comingSoon),
-                ],
+              child: BlocListener<MovieBloc, MovieState>(
+                listenWhen: (prev, curr) {
+                  return prev.tab != curr.tab;
+                },
+                listener: (context, state) {
+                  _pageController.animateToPage(
+                    state.tab.index,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  );
+
+                  final bloc = context.read<MovieBloc>();
+                  bloc.add(LoadMoviesEvent(tab: state.tab));
+                },
+                child: PageView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: _pageController,
+                  children: [
+                    MovieListPage(tab: MovieTab.nowPlaying),
+                    MovieListPage(tab: MovieTab.comingSoon),
+                  ],
+                ),
               ),
             ),
           ],
@@ -67,7 +92,6 @@ class _MovieScreenState extends State<MovieScreen> {
         child: BlocBuilder<MovieBloc, MovieState>(
           buildWhen: (prev, curr) => prev.tab != curr.tab,
           builder: (context, state) {
-            final bloc = context.read<MovieBloc>();
             return Row(
               children: [
                 MovieTabButton(
@@ -75,7 +99,7 @@ class _MovieScreenState extends State<MovieScreen> {
                   tab: MovieTab.nowPlaying,
                   isSelected: state.tab == MovieTab.nowPlaying,
                   onTap: () {
-                    bloc.add(const ChangeTabEvent(tab: MovieTab.nowPlaying));
+                    if (state.tab == MovieTab.nowPlaying) return;
                     _onTabChanged(MovieTab.nowPlaying);
                   },
                 ),
@@ -84,7 +108,7 @@ class _MovieScreenState extends State<MovieScreen> {
                   tab: MovieTab.comingSoon,
                   isSelected: state.tab == MovieTab.comingSoon,
                   onTap: () {
-                    bloc.add(const ChangeTabEvent(tab: MovieTab.comingSoon));
+                    if (state.tab == MovieTab.comingSoon) return;
                     _onTabChanged(MovieTab.comingSoon);
                   },
                 ),

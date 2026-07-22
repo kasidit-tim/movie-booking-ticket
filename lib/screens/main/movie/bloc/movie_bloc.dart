@@ -24,16 +24,10 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
 
   final MovieRepository _repository;
 
-  void _onChangeTabEvent(ChangeTabEvent event, Emitter<MovieState> emit) {
-    final movies = switch (event.tab) {
-      MovieTab.nowPlaying => state.nowPlaying.movies,
-      MovieTab.comingSoon => state.comingSoon.movies,
-    };
-
-    if (movies == MoviePaginateData.empty()) {
-      add(LoadMoviesEvent(tab: event.tab));
-    }
-
+  Future<void> _onChangeTabEvent(
+    ChangeTabEvent event,
+    Emitter<MovieState> emit,
+  ) async {
     emit(state.copyWith(tab: event.tab));
   }
 
@@ -54,6 +48,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
 
   Future<void> _loadNowPlaying(Emitter<MovieState> emit) async {
     var section = state.nowPlaying;
+    if (section.movies != MoviePaginateData.empty()) return;
 
     section = section.copyWith(isLoading: true);
     emit(state.copyWith(nowPlaying: section));
@@ -76,6 +71,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
 
   Future<void> _loadComingSoon(Emitter<MovieState> emit) async {
     var section = state.comingSoon;
+    if (section.movies != MoviePaginateData.empty()) return;
 
     section = section.copyWith(isLoading: true);
     emit(state.copyWith(comingSoon: section));
