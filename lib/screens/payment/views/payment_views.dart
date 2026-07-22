@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_booking_ticket/core/routes/app_routes.dart';
+import 'package:movie_booking_ticket/screens/payment/bloc/payment_bloc.dart';
 import 'package:movie_booking_ticket/core/theme/app_colors.dart';
 import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
@@ -10,6 +12,7 @@ import 'package:movie_booking_ticket/core/widgets/my_textfield.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
 import 'package:movie_booking_ticket/core/utils/booking_utils.dart';
 import 'package:movie_booking_ticket/models/booking_data.dart';
+import 'package:movie_booking_ticket/screens/ticket_detail/data/ticket_detail_args.dart';
 
 import 'widgets/payment_method_list.dart';
 import 'widgets/payment_timer.dart';
@@ -22,45 +25,72 @@ class PaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MainAppBar(title: "Payment"),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Gap.h16,
-              TicketCard(
-                movie: booking.movie,
-                cinemaName: booking.cinema.name,
-                dateTimeDisplay: formatBookingDateTime(booking.date!, booking.time),
-              ),
-              Gap.h32,
-              _OrderInfoSection(
-                orderId: booking.orderId ?? '',
-                seats: booking.seatDisplay,
-              ),
-              Gap.h24,
-              const _DiscountCodeInput(),
-              Gap.h32,
-              const Divider(height: 0),
-              Gap.h32,
-              _TotalRow(total: booking.totalPrice),
-              Gap.h32,
-              const PaymentMethodList(),
-              Gap.h32,
-              const PaymentTimer(),
-              Gap.h32,
-            ],
+    return BlocListener<PaymentBloc, PaymentState>(
+      listenWhen: (prev, curr) => prev.status != curr.status,
+      listener: (context, state) {
+        if (state.status == PaymentStatus.success) {
+          context.go(
+            AppRoutes.ticketDetail,
+            extra: TicketDetailArgs(
+              bookingData: booking,
+              backRoute: AppRoutes.main,
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: MainAppBar(title: "Payment"),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Gap.h16,
+                TicketCard(
+                  movie: booking.movie,
+                  cinemaName: booking.cinema.name,
+                  dateTimeDisplay: formatBookingDateTime(
+                    booking.date!,
+                    booking.time,
+                  ),
+                ),
+                Gap.h32,
+                _OrderInfoSection(
+                  orderId: booking.orderId ?? '',
+                  seats: booking.seatDisplay,
+                ),
+                Gap.h24,
+                const _DiscountCodeInput(),
+                Gap.h32,
+                const Divider(height: 0),
+                Gap.h32,
+                _TotalRow(total: booking.totalPrice),
+                Gap.h32,
+                const PaymentMethodList(),
+                Gap.h32,
+                const PaymentTimer(),
+                Gap.h32,
+              ],
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: MainBottomNavButton(
-        label: "Continue",
-        onPressed: () {
-          context.go(AppRoutes.ticketDetail, extra: booking);
-        },
+        bottomNavigationBar: BlocBuilder<PaymentBloc, PaymentState>(
+          buildWhen: (prev, curr) => prev.status != curr.status,
+          builder: (context, state) {
+            final isLoading = state.status == PaymentStatus.loading;
+            return MainBottomNavButton(
+              label: isLoading ? "Processing..." : "Continue",
+              onPressed: isLoading
+                  ? null
+                  : () {
+                      context.read<PaymentBloc>().add(
+                        ConfirmPaymentEvent(booking),
+                      );
+                    },
+            );
+          },
+        ),
       ),
     );
   }
