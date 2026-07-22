@@ -6,18 +6,22 @@ import 'package:movie_booking_ticket/screens/main/bloc/main_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/home/bloc/home_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/home/data/home_repository.dart';
 import 'package:movie_booking_ticket/screens/main/movie/data/movie_repository.dart';
-import 'package:movie_booking_ticket/screens/movie_detail/data/movie_detail_repository.dart';
 import 'package:movie_booking_ticket/screens/main/movie/bloc/movie_bloc.dart';
+import 'package:movie_booking_ticket/screens/main/ticket/bloc/ticket_bloc.dart';
+import 'package:movie_booking_ticket/screens/main/ticket/data/booking_repository.dart';
+import 'package:movie_booking_ticket/screens/movie_detail/data/movie_detail_repository.dart';
+import 'package:movie_booking_ticket/screens/payment/bloc/payment_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/views/main_screen.dart';
 import 'package:movie_booking_ticket/screens/movie_detail/bloc/movie_detail_bloc.dart';
 import 'package:movie_booking_ticket/screens/movie_detail/views/movie_detail_screen.dart';
 import 'package:movie_booking_ticket/screens/payment/views/payment_views.dart';
 import 'package:movie_booking_ticket/models/booking_data.dart';
-import 'package:movie_booking_ticket/models/movie_detail_args.dart';
+import 'package:movie_booking_ticket/screens/movie_detail/data/movie_detail_args.dart';
 import 'package:movie_booking_ticket/screens/seat_selection/bloc/seat_selection_bloc.dart';
 import 'package:movie_booking_ticket/screens/seat_selection/views/seat_selection_screen.dart';
 import 'package:movie_booking_ticket/screens/splash/bloc/splash_bloc.dart';
 import 'package:movie_booking_ticket/screens/splash/views/splash_screen.dart';
+import 'package:movie_booking_ticket/screens/ticket_detail/data/ticket_detail_args.dart';
 import 'package:movie_booking_ticket/screens/ticket_detail/views/ticket_detail_screen.dart';
 import 'app_routes.dart';
 
@@ -51,6 +55,11 @@ class AppRouter {
                   ..add(LoadComingSoonMovie()),
               ),
               BlocProvider(create: (_) => MovieBloc(getIt<MovieRepository>())),
+              BlocProvider(
+                create: (_) =>
+                    TicketBloc(getIt<BookingRepository>())
+                      ..add(LoadBookingsEvent()),
+              ),
             ],
             child: MainScreen(),
           );
@@ -83,14 +92,17 @@ class AppRouter {
         path: AppRoutes.payment,
         builder: (ctx, state) {
           final booking = state.extra as BookingData;
-          return PaymentScreen(booking: booking);
+          return BlocProvider(
+            create: (_) => PaymentBloc(getIt<BookingRepository>()),
+            child: PaymentScreen(booking: booking),
+          );
         },
       ),
       GoRoute(
         path: AppRoutes.ticketDetail,
         builder: (ctx, state) {
-          final booking = state.extra as BookingData;
-          return TicketDetailScreen(booking: booking);
+          final args = state.extra as TicketDetailArgs;
+          return TicketDetailScreen(args: args);
         },
       ),
     ],
