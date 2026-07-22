@@ -11,7 +11,7 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   final dioClient = DioClient();
   await ApiConfig.configure(dioClient);
-  configureDependencies(dioClient);
+  await configureDependencies(dioClient);
   runApp(const MovieBookingTicket());
 }
 
