@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_booking_ticket/core/constants/app_constants.dart';
 import 'package:movie_booking_ticket/core/routes/app_routes.dart';
-import 'package:movie_booking_ticket/models/movie_detail_args.dart';
+import 'package:movie_booking_ticket/screens/movie_detail/data/movie_detail_args.dart';
 import 'package:movie_booking_ticket/core/theme/app_colors.dart';
 import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';

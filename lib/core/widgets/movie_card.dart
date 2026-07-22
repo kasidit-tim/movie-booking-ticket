@@ -8,7 +8,7 @@ import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
 import 'package:movie_booking_ticket/models/movie/movie_data.dart';
-import 'package:movie_booking_ticket/models/movie_detail_args.dart';
+import 'package:movie_booking_ticket/screens/movie_detail/data/movie_detail_args.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class MovieCard extends StatelessWidget {

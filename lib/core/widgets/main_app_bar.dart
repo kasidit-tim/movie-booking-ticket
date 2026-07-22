@@ -4,10 +4,16 @@ import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const MainAppBar({super.key, this.title = "", this.onBack});
+  const MainAppBar({
+    super.key,
+    this.title = "",
+    this.onBack,
+    this.showBackBtn = true,
+  });
 
   final String title;
   final VoidCallback? onBack;
+  final bool showBackBtn;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -18,14 +24,16 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: AppBar(
         title: Text(title, style: context.textTheme.headlineMedium),
-        leading: InkWell(
-          onTap:
-              onBack ??
-              () {
-                context.pop();
-              },
-          child: Assets.images.general.arrowLeft.svg(),
-        ),
+        leading: !showBackBtn
+            ? SizedBox()
+            : InkWell(
+                onTap:
+                    onBack ??
+                    () {
+                      context.pop();
+                    },
+                child: Assets.images.general.arrowLeft.svg(),
+              ),
         leadingWidth: 40,
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
