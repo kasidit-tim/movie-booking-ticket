@@ -38,42 +38,44 @@ class TicketCard extends StatelessWidget {
                 imageUrl: movie.getPosterImgW500,
               ),
               Gap.w16,
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      movie.title ?? "",
-                      style: context.textTheme.titleLarge?.copyWith(
-                        color: AppColors.primary,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        movie.title ?? "",
+                        style: context.textTheme.titleLarge?.copyWith(
+                          color: AppColors.primary,
+                        ),
                       ),
-                    ),
-                    Gap.h16,
-                    _InfoRow(
-                      icon: Assets.images.general.videoPlay.svg(
-                        height: 16,
-                        width: 16,
+                      Gap.h16,
+                      _InfoRow(
+                        icon: Assets.images.general.videoPlay.svg(
+                          height: 16,
+                          width: 16,
+                        ),
+                        text: movie.getGenres,
                       ),
-                      text: movie.getGenres,
-                    ),
-                    Gap.h8,
-                    _InfoRow(
-                      icon: Assets.images.general.location.svg(
-                        height: 16,
-                        width: 16,
+                      Gap.h8,
+                      _InfoRow(
+                        icon: Assets.images.general.location.svg(
+                          height: 16,
+                          width: 16,
+                        ),
+                        text: cinemaName,
                       ),
-                      text: cinemaName,
-                    ),
-                    Gap.h8,
-                    _InfoRow(
-                      icon: Assets.images.general.clock.svg(
-                        height: 16,
-                        width: 16,
+                      Gap.h8,
+                      _InfoRow(
+                        icon: Assets.images.general.clock.svg(
+                          height: 16,
+                          width: 16,
+                        ),
+                        text: dateTimeDisplay,
                       ),
-                      text: dateTimeDisplay,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -93,10 +95,11 @@ class _InfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         icon,
         Gap.w4,
-        Text(text, style: context.textTheme.bodyMedium),
+        Expanded(child: Text(text, style: context.textTheme.bodyMedium)),
       ],
     );
   }
