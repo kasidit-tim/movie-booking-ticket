@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:movie_booking_ticket/models/booking_data.dart';
-import 'package:movie_booking_ticket/screens/main/ticket/data/booking_repository.dart';
+import 'package:movie_booking_ticket/screens/main/my_ticket/data/booking_repository.dart';
 
 part 'ticket_event.dart';
 part 'ticket_state.dart';

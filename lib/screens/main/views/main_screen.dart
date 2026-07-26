@@ -7,7 +7,7 @@ import 'package:movie_booking_ticket/screens/main/bloc/main_bloc.dart';
 import 'package:movie_booking_ticket/screens/main/home/views/home_screen.dart';
 import 'package:movie_booking_ticket/screens/main/movie/views/movie_screen.dart';
 import 'package:movie_booking_ticket/screens/main/profile/views/profile_screen.dart';
-import 'package:movie_booking_ticket/screens/main/ticket/views/ticket_screen.dart';
+import 'package:movie_booking_ticket/screens/main/my_ticket/views/ticket_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -44,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
           controller: _pageController,
           children: [
             const HomeScreen(),
-            const TicketScreen(),
+            const MyTicketScreen(),
             const MovieScreen(),
             const ProfileScreen(),
           ],

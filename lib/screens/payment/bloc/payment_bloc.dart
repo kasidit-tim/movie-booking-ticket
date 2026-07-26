@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_booking_ticket/models/booking_data.dart';
-import 'package:movie_booking_ticket/screens/main/ticket/data/booking_repository.dart';
+import 'package:movie_booking_ticket/screens/main/my_ticket/data/booking_repository.dart';
 
 part 'payment_event.dart';
 part 'payment_state.dart';
