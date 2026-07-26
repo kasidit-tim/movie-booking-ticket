@@ -31,67 +31,76 @@ class MovieCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              height: 267,
-              width: double.infinity,
-              child: data.getPosterImgW500.isEmpty
-                  ? Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.card,
-                        borderRadius: BorderRadius.circular(12),
+            AspectRatio(
+              aspectRatio: 2 / 3,
+              child: Container(
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                width: double.infinity,
+                child: data.getPosterImgW500.isEmpty
+                    ? Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.card,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      )
+                    : CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        imageUrl: data.getPosterImgW500,
                       ),
-                    )
-                  : CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      imageUrl: data.getPosterImgW500,
-                    ),
-            ),
-            Gap.h16,
-            Text(
-              "${data.title}",
-              style: context.textTheme.titleMedium?.copyWith(
-                color: AppColors.primary,
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
-            Gap.h8,
             Column(
-              spacing: 4,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (!isComingSoon)
-                  MovieInfoRow(
-                    iconPath: Assets.images.general.star.path,
-                    text: "${data.voteAverage} (${data.voteCount})",
+                Gap.h16,
+                Text(
+                  "${data.title}",
+                  style: context.textTheme.titleMedium?.copyWith(
+                    color: AppColors.primary,
                   ),
-                Skeletonizer(
-                  enabled: !data.hasDetail,
-                  child: Column(
-                    children: [
-                      isComingSoon
-                          ? MovieInfoRow(
-                              iconPath: Assets.images.general.calendar.path,
-                              text: data.getReleaseDate,
-                            )
-                          : MovieInfoRow(
-                              iconPath: Assets.images.general.clock.path,
-                              text: data.runTime.isNotEmpty
-                                  ? data.runTime
-                                  : "1h 30min",
-                            ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Gap.h12,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (!isComingSoon)
                       MovieInfoRow(
-                        iconPath: Assets.images.general.video.path,
-                        text: data.getGenres.isNotEmpty
-                            ? data.getGenres
-                            : "Action, Drama",
+                        iconPath: Assets.images.general.star.path,
+                        text:
+                            "${data.voteAverage?.toStringAsFixed(1) ?? '0'} (${data.voteCount})",
                       ),
-                    ],
-                  ),
+                    Gap.h4,
+                    Skeletonizer(
+                      enabled: !data.hasDetail,
+                      child: Column(
+                        children: [
+                          isComingSoon
+                              ? MovieInfoRow(
+                                  iconPath: Assets.images.general.calendar.path,
+                                  text: data.getReleaseDate,
+                                )
+                              : MovieInfoRow(
+                                  iconPath: Assets.images.general.clock.path,
+                                  text: data.runTime.isNotEmpty
+                                      ? data.runTime
+                                      : "1h 30min",
+                                ),
+                          Gap.h4,
+                          MovieInfoRow(
+                            iconPath: Assets.images.general.video.path,
+                            text: data.getGenres.isNotEmpty
+                                ? data.getGenres
+                                : "Action, Drama",
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

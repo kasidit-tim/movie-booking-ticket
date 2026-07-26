@@ -26,6 +26,12 @@ class ComingSoonList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final isTabletOrFold = screenWidth > 700;
+
+    final cardWidth = isTabletOrFold ? 200.0 : 175.0;
+    final cardHeight = isTabletOrFold ? 400.0 : 370.0;
+
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (prev, curr) =>
           prev.isComingSoonLoading != curr.isComingSoonLoading,
@@ -53,11 +59,17 @@ class ComingSoonList extends StatelessWidget {
               child: Row(
                 children: List.generate(list.length, (i) {
                   final movieData = list[i];
-                  return Padding(
-                    padding: EdgeInsets.only(left: i == 0 ? 16 : 0, right: 16),
-                    child: SizedBox(
-                      width: 175,
-                      child: MovieCard(data: movieData, isComingSoon: true),
+                  return SizedBox(
+                    height: cardHeight,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: i == 0 ? 16 : 0,
+                        right: 16,
+                      ),
+                      child: SizedBox(
+                        width: cardWidth,
+                        child: MovieCard(data: movieData, isComingSoon: true),
+                      ),
                     ),
                   );
                 }),

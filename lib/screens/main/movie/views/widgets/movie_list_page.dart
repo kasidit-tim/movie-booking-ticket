@@ -51,15 +51,28 @@ class _MovieListPageState extends State<MovieListPage>
   }
 
   int _placeholderCount(int length) {
-    return length.isEven ? 2 : 3;
+    final width = MediaQuery.sizeOf(context).width;
+    final columnCount = width > 700 ? 4 : 2;
+
+    final remainder = length % columnCount;
+
+    return remainder == 0 ? columnCount : (columnCount - remainder);
   }
 
   SliverGridDelegateWithFixedCrossAxisCount _gridDelegate() {
+    final width = MediaQuery.sizeOf(context).width;
+    final isFoldOrTablet = width > 700;
+    final isComingSoon = widget.tab == MovieTab.comingSoon;
+
+    final crossAxisCount = isFoldOrTablet ? 4 : 2;
+
+    final childAspectRatio = isComingSoon ? 0.46 : 0.44;
+
     return SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 2,
+      crossAxisCount: crossAxisCount,
       crossAxisSpacing: 16,
       mainAxisSpacing: 24,
-      childAspectRatio: widget.tab == MovieTab.comingSoon ? 0.47 : 0.44,
+      childAspectRatio: childAspectRatio,
     );
   }
 
@@ -87,9 +100,10 @@ class _MovieListPageState extends State<MovieListPage>
       builder: (context, state) {
         final section = _section(state);
         final movies = section.movies.results ?? [];
+        final isComingSoon = widget.tab == MovieTab.comingSoon;
 
         if (section.isLoading) {
-          return _buildSkeletonGrid();
+          return _buildSkeletonGrid(isComingSoon);
         }
 
         if (movies.isEmpty) {
@@ -110,12 +124,13 @@ class _MovieListPageState extends State<MovieListPage>
                         enabled: true,
                         child: MovieCard(
                           data: MovieDataModel(title: 'Loading'),
+                          isComingSoon: isComingSoon,
                         ),
                       );
                     }
                     return MovieCard(
                       data: movies[i],
-                      isComingSoon: widget.tab == MovieTab.comingSoon,
+                      isComingSoon: isComingSoon,
                     );
                   },
                   childCount: section.isLoadingMore
@@ -131,17 +146,19 @@ class _MovieListPageState extends State<MovieListPage>
     );
   }
 
-  Widget _buildSkeletonGrid() {
+  Widget _buildSkeletonGrid(bool isComingSoon) {
+    final width = MediaQuery.sizeOf(context).width;
+    final isFoldOrTablet = width > 700;
     return Skeletonizer(
       enabled: true,
       child: GridView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: 6,
+        itemCount: isFoldOrTablet ? 8 : 4,
         gridDelegate: _gridDelegate(),
         itemBuilder: (context, i) => MovieCard(
           data: MovieDataModel(title: 'Loading'),
-          isComingSoon: widget.tab == MovieTab.comingSoon,
+          isComingSoon: isComingSoon,
         ),
       ),
     );
