@@ -110,6 +110,10 @@ class MovieDataModel extends Equatable {
       ? "${AppConstants.imageW500}$posterPath"
       : "";
 
+  String get getBackdropOriginal => ((backdropPath ?? "").isNotEmpty)
+      ? "${AppConstants.imageOriginal}$backdropPath"
+      : "";
+
   String get getReleaseDate {
     if (releaseDate == null) return '';
     return '${releaseDate!.day.toString().padLeft(2, '0')}.${releaseDate!.month.toString().padLeft(2, '0')}.${releaseDate!.year}';

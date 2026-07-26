@@ -35,7 +35,7 @@ class MovieDetailScreen extends StatelessWidget {
             slivers: [
               MovieDetailAppBar(
                 isLoading: state.isLoading,
-                posterUrl: movie?.getPosterImgW500,
+                posterUrl: movie?.getBackdropOriginal,
                 infoCard: MovieInfoCard(movie: movie),
               ),
               SliverToBoxAdapter(
