@@ -19,7 +19,6 @@ import 'package:movie_booking_ticket/models/booking_data.dart';
 import 'package:movie_booking_ticket/screens/movie_detail/data/movie_detail_args.dart';
 import 'package:movie_booking_ticket/screens/seat_selection/bloc/seat_selection_bloc.dart';
 import 'package:movie_booking_ticket/screens/seat_selection/views/seat_selection_screen.dart';
-import 'package:movie_booking_ticket/screens/splash/bloc/splash_bloc.dart';
 import 'package:movie_booking_ticket/screens/splash/views/splash_screen.dart';
 import 'package:movie_booking_ticket/screens/ticket_detail/data/ticket_detail_args.dart';
 import 'package:movie_booking_ticket/screens/ticket_detail/views/ticket_detail_screen.dart';
@@ -37,10 +36,7 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.splash,
         builder: (ctx, state) {
-          return BlocProvider(
-            create: (_) => SplashBloc()..add(StartAppInitEvent()),
-            child: SplashScreen(),
-          );
+          return SplashScreen();
         },
       ),
       GoRoute(

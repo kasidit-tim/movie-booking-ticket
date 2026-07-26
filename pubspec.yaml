@@ -63,6 +63,7 @@ flutter:
     - assets/images/profile_menu/
     - assets/images/general/
     - assets/images/ticket_detail/
+    - assets/images/app_logo/
   fonts:
     - family: SF Pro Display
       fonts:
