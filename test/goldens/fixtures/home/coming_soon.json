@@ -1,0 +1,208 @@
+{
+    "page": 1,
+    "results": [
+        {
+            "adult": false,
+            "backdrop_path": "/i0lipAm0VHFA3EH0CPV0s5LJMIE.jpg",
+            "genre_ids": [
+                878,
+                9648,
+                28
+            ],
+            "genres": [
+                {
+                    "id": 878,
+                    "name": "Science Fiction"
+                },
+                {
+                    "id": 9648,
+                    "name": "Mystery"
+                },
+                {
+                    "id": 28,
+                    "name": "Action"
+                }
+            ],
+            "runtime": 157,
+            "id": 1058424,
+            "title": "Hope",
+            "original_language": "ko",
+            "original_title": "호프",
+            "overview": "In the remote South Korean village of Hope Harbor, police chief Bum-seok and officer Sung-ae are called to investigate a mysterious creature wreaking havoc on the community. But all is not as it seems, and perceptions can be misleading. What begins as ignorance plants the seed of disaster, escalating through human conflict into a tragedy of cosmic proportions.",
+            "popularity": 26.4164,
+            "poster_path": "/1n37BJchWHLiSYQkuFxe5KjB951.jpg",
+            "release_date": "2026-09-09",
+            "softcore": false,
+            "video": false,
+            "vote_average": 7.882,
+            "vote_count": 17
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/ddfXMkaPViSrg0P5aoYGFMc58x2.jpg",
+            "genre_ids": [
+                27,
+                878,
+                53
+            ],
+            "genres": [
+                {
+                    "id": 27,
+                    "name": "Horror"
+                },
+                {
+                    "id": 878,
+                    "name": "Science Fiction"
+                },
+                {
+                    "id": 53,
+                    "name": "Thriller"
+                }
+            ],
+            "runtime": 0,
+            "id": 1423191,
+            "title": "Resident Evil",
+            "original_language": "en",
+            "original_title": "Resident Evil",
+            "overview": "Bryan, a medical courier, is in the process of making a delivery when a sudden outbreak occurs, forcing him to fight for survival.",
+            "popularity": 15.0396,
+            "poster_path": "/zP83bIkBViw5b1s9bDemYJ3AAgX.jpg",
+            "release_date": "2026-09-24",
+            "softcore": false,
+            "video": false,
+            "vote_average": 0.0,
+            "vote_count": 0
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/jUdV706J4d3nUEbfimqVnGZqTbW.jpg",
+            "genre_ids": [
+                28,
+                53
+            ],
+            "genres": [
+                {
+                    "id": 28,
+                    "name": "Action"
+                },
+                {
+                    "id": 53,
+                    "name": "Thriller"
+                }
+            ],
+            "runtime": 95,
+            "id": 1288445,
+            "title": "Mutiny",
+            "original_language": "en",
+            "original_title": "Mutiny",
+            "overview": "After witnessing his billionaire boss' murder and being framed for the crime, Cole Reed boards a cargo ship on a one-man crusade to avenge his boss' death only to discover an international conspiracy.",
+            "popularity": 10.5099,
+            "poster_path": "/pVMxkaViouALWwc1EdZBaiZJTxJ.jpg",
+            "release_date": "2026-09-03",
+            "softcore": false,
+            "video": false,
+            "vote_average": 0.0,
+            "vote_count": 0
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/g4wdPZlhVioK69H8Q0o9Id5QhNs.jpg",
+            "genre_ids": [
+                53
+            ],
+            "genres": [
+                {
+                    "id": 53,
+                    "name": "Thriller"
+                }
+            ],
+            "runtime": 0,
+            "id": 1101412,
+            "title": "Fall 2: Deadpoint",
+            "original_language": "en",
+            "original_title": "Fall 2: Deadpoint",
+            "overview": "On a perilous climb across Thailand's Mount Kwan, two climbers become trapped thousands of feet above the ground, where vertigo-inducing heights, sheer exposure, and impossible odds turn every moment into a fight for survival.",
+            "popularity": 10.7179,
+            "poster_path": "/ckKAdEz49bJ10jCLbCYIzVHJGEu.jpg",
+            "release_date": "2026-09-02",
+            "softcore": false,
+            "video": false,
+            "vote_average": 0.0,
+            "vote_count": 0
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/quAHqi4zBrB5fIfHvgrqiG4xzAC.jpg",
+            "genre_ids": [
+                12,
+                878,
+                53
+            ],
+            "genres": [
+                {
+                    "id": 12,
+                    "name": "Adventure"
+                },
+                {
+                    "id": 878,
+                    "name": "Science Fiction"
+                },
+                {
+                    "id": 53,
+                    "name": "Thriller"
+                }
+            ],
+            "runtime": 100,
+            "id": 1384216,
+            "title": "The Dog Stars",
+            "original_language": "en",
+            "original_title": "The Dog Stars",
+            "overview": "After the world's population has been ravaged by a pandemic, a man lives a lonesome existence in a Colorado airplane hangar with his dog and a dour gunman he has befriended. When a mysterious transmission comes through on the radio while he’s flying his old Cessna, it sparks a hunt for the provenance of the sound.",
+            "popularity": 8.7188,
+            "poster_path": "/l2ZiywIMPdlONXoGH7KJHvQ6wWj.jpg",
+            "release_date": "2026-08-27",
+            "softcore": false,
+            "video": false,
+            "vote_average": 0.0,
+            "vote_count": 0
+        },
+        {
+            "adult": false,
+            "backdrop_path": "/yDgYYuz8jDQCRJbHC3XM7IIGoeR.jpg",
+            "genre_ids": [
+                14,
+                18,
+                35
+            ],
+            "genres": [
+                {
+                    "id": 14,
+                    "name": "Fantasy"
+                },
+                {
+                    "id": 18,
+                    "name": "Drama"
+                },
+                {
+                    "id": 35,
+                    "name": "Comedy"
+                }
+            ],
+            "runtime": 0,
+            "id": 1302904,
+            "title": "Practical Magic 2",
+            "original_language": "en",
+            "original_title": "Practical Magic 2",
+            "overview": "The Owens sisters must confront the dark curse that threatens to unravel their family once and for all.",
+            "popularity": 3.7233,
+            "poster_path": "/uA8ytJv17alSiREcUthbYAdiPCX.jpg",
+            "release_date": "2026-09-10",
+            "softcore": false,
+            "video": false,
+            "vote_average": 0.0,
+            "vote_count": 0
+        }
+    ],
+    "total_pages": 1,
+    "total_results": 15
+}
