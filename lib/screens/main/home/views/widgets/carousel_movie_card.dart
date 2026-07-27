@@ -104,6 +104,8 @@ class _CarouselMovieCardState extends State<CarouselMovieCard> {
   }
 
   Widget _buildCarousel(List<MovieDataModel> movieDataList) {
+    final width = MediaQuery.sizeOf(context).width;
+    final isFoldOrTablet = width > 700;
     return CarouselSlider.builder(
       itemCount: movieDataList.length,
       itemBuilder: (context, i, _) {
@@ -122,13 +124,24 @@ class _CarouselMovieCardState extends State<CarouselMovieCard> {
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  color: AppColors.card,
                 ),
                 child: CachedNetworkImage(
                   width: double.infinity,
                   height: double.infinity,
                   fit: BoxFit.cover,
                   imageUrl: "${AppConstants.imageW500}${movie.posterPath}",
+                  placeholder: (context, url) => Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.card,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.card,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
                 ),
               ),
               if (!isCenter)
@@ -139,14 +152,14 @@ class _CarouselMovieCardState extends State<CarouselMovieCard> {
       },
       options: CarouselOptions(
         clipBehavior: Clip.hardEdge,
-        aspectRatio: 1,
+        aspectRatio: isFoldOrTablet ? 2.1 : 1,
         initialPage: _currentPage,
         onPageChanged: (index, reason) {
           setState(() => _currentPage = index);
         },
         enlargeCenterPage: true,
         enlargeFactor: 0.25,
-        viewportFraction: 0.65,
+        viewportFraction: isFoldOrTablet ? 0.35 : 0.65,
       ),
     );
   }

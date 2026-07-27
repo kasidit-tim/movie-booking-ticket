@@ -49,6 +49,18 @@ class MovieCard extends StatelessWidget {
                     : CachedNetworkImage(
                         fit: BoxFit.cover,
                         imageUrl: data.getPosterImgW500,
+                        placeholder: (context, url) => Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.card,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.card,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
                       ),
               ),
             ),

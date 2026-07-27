@@ -66,7 +66,7 @@ class _MovieListPageState extends State<MovieListPage>
 
     final crossAxisCount = isFoldOrTablet ? 4 : 2;
 
-    final childAspectRatio = isComingSoon ? 0.46 : 0.44;
+    final childAspectRatio = isComingSoon ? 0.45 : 0.43;
 
     return SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: crossAxisCount,
