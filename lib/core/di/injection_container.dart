@@ -2,7 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:movie_booking_ticket/core/network/dio_client.dart';
 import 'package:movie_booking_ticket/screens/main/home/data/home_repository.dart';
 import 'package:movie_booking_ticket/screens/main/movie/data/movie_repository.dart';
-import 'package:movie_booking_ticket/screens/main/ticket/data/booking_repository.dart';
+import 'package:movie_booking_ticket/screens/main/my_ticket/data/booking_repository.dart';
 import 'package:movie_booking_ticket/screens/movie_detail/data/movie_detail_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
