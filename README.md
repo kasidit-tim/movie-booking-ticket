@@ -132,7 +132,7 @@ screens/
 
 ```bash
 git clone https://github.com/kasidit-tim/movie-booking-ticket.git
-cd movie_booking_ticket
+cd movie-booking-ticket
 ```
 
 ---
