@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 import 'package:movie_booking_ticket/models/movie/movie_paginate_data.dart';
+import 'package:movie_booking_ticket/screens/main/movie/data/movie_detail.dart';
 import 'package:movie_booking_ticket/screens/main/movie/data/movie_repository.dart';
 import 'package:movie_booking_ticket/screens/main/movie/data/movie_section_state.dart';
 
@@ -87,7 +88,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       emit(state.copyWith(comingSoon: section));
 
       for (MovieDataModel movie in section.movies.results ?? []) {
-        await _loadMovieDetail(id: movie.id!, emit: emit, isComingSoon: true);
+        await _loadMovieDetail(id: movie.id!, emit: emit);
       }
     }
   }
@@ -95,25 +96,16 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   Future<void> _loadMovieDetail({
     required int id,
     required Emitter<MovieState> emit,
-    bool isComingSoon = false,
   }) async {
     try {
       final detail = await _repository.getMovieDetailById(id);
-      final section = isComingSoon ? state.comingSoon : state.nowPlaying;
-
-      final updatedList = section.movies.results?.map((movie) {
-        if (movie.id != id) return movie;
-        return movie.copyWith(runtime: detail.runtime, genres: detail.genres);
-      }).toList();
-
-      final updatedSection = section.copyWith(
-        movies: section.movies.copyWith(results: updatedList),
-      );
-
       emit(
-        isComingSoon
-            ? state.copyWith(comingSoon: updatedSection)
-            : state.copyWith(nowPlaying: updatedSection),
+        state.copyWith(
+          details: {
+            ...state.details,
+            id: MovieDetail(runtime: detail.runtime, genres: detail.genres),
+          },
+        ),
       );
     } catch (e) {
       debugPrint("=====> Load detail $id error ${e.toString()}");
@@ -187,7 +179,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       emit(state.copyWith(comingSoon: section));
 
       for (MovieDataModel movie in newData.results ?? []) {
-        await _loadMovieDetail(id: movie.id!, emit: emit, isComingSoon: true);
+        await _loadMovieDetail(id: movie.id!, emit: emit);
       }
     } catch (err) {
       debugPrint("=====> LoadMoreComingSoon err ${err.toString()}");

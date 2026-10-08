@@ -4,6 +4,7 @@ import 'package:movie_booking_ticket/core/widgets/movie_card.dart';
 import 'package:movie_booking_ticket/models/movie/movie_data.dart';
 import 'package:movie_booking_ticket/models/movie/movie_paginate_data.dart';
 import 'package:movie_booking_ticket/screens/main/movie/bloc/movie_bloc.dart';
+import 'package:movie_booking_ticket/screens/main/movie/data/movie_detail.dart';
 import 'package:movie_booking_ticket/screens/main/movie/data/movie_section_state.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -123,14 +124,27 @@ class _MovieListPageState extends State<MovieListPage>
                       return Skeletonizer(
                         enabled: true,
                         child: MovieCard(
-                          data: MovieDataModel(title: 'Loading'),
+                          data: _skeletonData,
                           isComingSoon: isComingSoon,
+                          detail: MovieDetail(
+                            runtime: 120,
+                            genres: [
+                              Genre(id: 28, name: 'Action'),
+                              Genre(id: 878, name: 'Sci-Fi'),
+                            ],
+                          ),
                         ),
                       );
                     }
-                    return MovieCard(
-                      data: movies[i],
-                      isComingSoon: isComingSoon,
+                    return BlocSelector<MovieBloc, MovieState, MovieDetail?>(
+                      selector: (state) => state.details[movies[i].id],
+                      builder: (context, detail) {
+                        return MovieCard(
+                          data: movies[i],
+                          isComingSoon: isComingSoon,
+                          detail: detail,
+                        );
+                      },
                     );
                   },
                   childCount: section.isLoadingMore
@@ -157,10 +171,25 @@ class _MovieListPageState extends State<MovieListPage>
         itemCount: isFoldOrTablet ? 8 : 4,
         gridDelegate: _gridDelegate(),
         itemBuilder: (context, i) => MovieCard(
-          data: MovieDataModel(title: 'Loading'),
+          data: _skeletonData,
           isComingSoon: isComingSoon,
+          detail: MovieDetail(
+            runtime: 120,
+            genres: [
+              Genre(id: 28, name: 'Action'),
+              Genre(id: 878, name: 'Sci-Fi'),
+            ],
+          ),
         ),
       ),
     );
   }
+
+  static final _skeletonData = MovieDataModel(
+    id: 0,
+    title: 'Movie Title Placeholder',
+    voteAverage: 8.5,
+    voteCount: 1200,
+    releaseDate: DateTime(2026, 1, 15),
+  );
 }

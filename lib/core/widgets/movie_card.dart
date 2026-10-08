@@ -8,14 +8,21 @@ import 'package:movie_booking_ticket/core/theme/app_spacing.dart';
 import 'package:movie_booking_ticket/core/theme/app_text_styles.dart';
 import 'package:movie_booking_ticket/gen/assets.gen.dart';
 import 'package:movie_booking_ticket/models/movie/movie_data.dart';
+import 'package:movie_booking_ticket/screens/main/movie/data/movie_detail.dart';
 import 'package:movie_booking_ticket/screens/movie_detail/data/movie_detail_args.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class MovieCard extends StatelessWidget {
-  const MovieCard({super.key, required this.data, this.isComingSoon = false});
+  const MovieCard({
+    super.key,
+    required this.data,
+    this.isComingSoon = false,
+    this.detail,
+  });
 
   final MovieDataModel data;
   final bool isComingSoon;
+  final MovieDetail? detail;
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +47,10 @@ class MovieCard extends StatelessWidget {
                 ),
                 width: double.infinity,
                 child: data.getPosterImgW500.isEmpty
-                    ? Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.card,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+                    ? Bone(
+                        width: double.infinity,
+                        height: double.infinity,
+                        borderRadius: BorderRadius.circular(12),
                       )
                     : CachedNetworkImage(
                         fit: BoxFit.cover,
@@ -87,9 +93,8 @@ class MovieCard extends StatelessWidget {
                             "${data.voteAverage?.toStringAsFixed(1) ?? '0'} (${data.voteCount})",
                       ),
                     Gap.h4,
-                    Skeletonizer(
-                      enabled: !data.hasDetail,
-                      child: Column(
+                    if (detail != null)
+                      Column(
                         children: [
                           isComingSoon
                               ? MovieInfoRow(
@@ -98,20 +103,20 @@ class MovieCard extends StatelessWidget {
                                 )
                               : MovieInfoRow(
                                   iconPath: Assets.images.general.clock.path,
-                                  text: data.runTime.isNotEmpty
-                                      ? data.runTime
-                                      : "1h 30min",
+                                  text: detail!.runTime,
                                 ),
                           Gap.h4,
                           MovieInfoRow(
                             iconPath: Assets.images.general.video.path,
-                            text: data.getGenres.isNotEmpty
-                                ? data.getGenres
-                                : "Action, Drama",
+                            text: detail!.genresText,
                           ),
                         ],
+                      )
+                    else
+                      Skeletonizer(
+                        enabled: true,
+                        child: _buildDetailSkeleton(isComingSoon),
                       ),
-                    ),
                   ],
                 ),
               ],
@@ -119,6 +124,24 @@ class MovieCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildDetailSkeleton(bool isComingSoon) {
+    return Column(
+      children: [
+        MovieInfoRow(
+          iconPath: isComingSoon
+              ? Assets.images.general.calendar.path
+              : Assets.images.general.clock.path,
+          text: 'placeholder',
+        ),
+        Gap.h4,
+        MovieInfoRow(
+          iconPath: Assets.images.general.video.path,
+          text: 'placeholder text',
+        ),
+      ],
     );
   }
 }
